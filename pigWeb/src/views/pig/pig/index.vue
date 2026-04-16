@@ -112,6 +112,13 @@
             @click="handleDelete(scope.row)"
             v-hasPermi="['pig:pig:remove']"
           >删除</el-button>
+          <el-button
+            size="small"
+            type="text"
+            icon="el-icon-add"
+            @click="pigPeizhong(scope.row)"
+            v-hasPermi="['pig:pig:remove']"
+          >配种</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -212,6 +219,9 @@ export default {
     this.getList()
   },
   methods: {
+    pigPeizhong(row){
+
+    },
     /** 查询pig列表 */
     getList() {
       this.loading = true
