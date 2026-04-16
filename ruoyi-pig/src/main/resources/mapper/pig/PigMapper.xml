@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.pig.mapper.PigMapper">
+    
+    <resultMap type="Pig" id="PigResult">
+        <result property="pigId"    column="pig_id"    />
+        <result property="pigName"    column="pig_name"    />
+        <result property="pigSex"    column="pig_sex"    />
+        <result property="pigAge"    column="pig_age"    />
+        <result property="pigStatus"    column="pig_status"    />
+        <result property="pigPigid"    column="pig_pigid"    />
+    </resultMap>
+
+    <sql id="selectPigVo">
+        select pig_id, pig_name, pig_sex, pig_age, pig_status, pig_pigid from pig
+    </sql>
+
+    <select id="selectPigList" parameterType="Pig" resultMap="PigResult">
+        <include refid="selectPigVo"/>
+        <where>  
+            <if test="pigName != null  and pigName != ''"> and pig_name like concat('%', #{pigName}, '%')</if>
+            <if test="pigSex != null  and pigSex != ''"> and pig_sex = #{pigSex}</if>
+            <if test="pigAge != null  and pigAge != ''"> and pig_age = #{pigAge}</if>
+            <if test="pigStatus != null  and pigStatus != ''"> and pig_status = #{pigStatus}</if>
+            <if test="pigPigid != null "> and pig_pigid = #{pigPigid}</if>
+        </where>
+    </select>
+    
+    <select id="selectPigByPigId" parameterType="Long" resultMap="PigResult">
+        <include refid="selectPigVo"/>
+        where pig_id = #{pigId}
+    </select>
+
+    <insert id="insertPig" parameterType="Pig">
+        insert into pig
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pigId != null">pig_id,</if>
+            <if test="pigName != null">pig_name,</if>
+            <if test="pigSex != null">pig_sex,</if>
+            <if test="pigAge != null">pig_age,</if>
+            <if test="pigStatus != null">pig_status,</if>
+            <if test="pigPigid != null">pig_pigid,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pigId != null">#{pigId},</if>
+            <if test="pigName != null">#{pigName},</if>
+            <if test="pigSex != null">#{pigSex},</if>
+            <if test="pigAge != null">#{pigAge},</if>
+            <if test="pigStatus != null">#{pigStatus},</if>
+            <if test="pigPigid != null">#{pigPigid},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePig" parameterType="Pig">
+        update pig
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pigName != null">pig_name = #{pigName},</if>
+            <if test="pigSex != null">pig_sex = #{pigSex},</if>
+            <if test="pigAge != null">pig_age = #{pigAge},</if>
+            <if test="pigStatus != null">pig_status = #{pigStatus},</if>
+            <if test="pigPigid != null">pig_pigid = #{pigPigid},</if>
+        </trim>
+        where pig_id = #{pigId}
+    </update>
+
+    <delete id="deletePigByPigId" parameterType="Long">
+        delete from pig where pig_id = #{pigId}
+    </delete>
+
+    <delete id="deletePigByPigIds" parameterType="String">
+        delete from pig where pig_id in 
+        <foreach item="pigId" collection="array" open="(" separator="," close=")">
+            #{pigId}
+        </foreach>
+    </delete>
+</mapper>
