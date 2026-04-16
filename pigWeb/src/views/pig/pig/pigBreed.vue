@@ -99,7 +99,7 @@
       <!-- <el-table-column label="需要配种的野猪id" align="center" prop="pigPigid" /> -->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button
+        <!--  <el-button
             size="mini"
             type="text"
             icon="el-icon-edit"
@@ -112,14 +112,23 @@
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['pig:pig:remove']"
-          >删除</el-button>
+          >删除</el-button> -->
           <el-button
-            size="small"
+          v-if="scope.row.pigSex==1"
+            size="medium"
             type="text"
             icon="el-icon-add"
             @click="pigPeizhong(scope.row)"
             v-hasPermi="['pig:pig:remove']"
-          >配种</el-button>
+          >分娩</el-button>
+          <el-button
+          v-if="scope.row.pigSex==2"
+            size="medium"
+            type="text"
+            icon="el-icon-add"
+            @click="pigPeizhong(scope.row)"
+            v-hasPermi="['pig:pig:remove']"
+          >休息</el-button>
         </template>
       </el-table-column>
     </el-table>
