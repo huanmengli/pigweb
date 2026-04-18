@@ -80,15 +80,15 @@
     <el-table v-loading="loading" :data="pigList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <!-- <el-table-column label="野猪id" align="center" prop="pigId" /> -->
-      <el-table-column label="野猪代号" align="center" prop="pigName" />
-      <el-table-column label="野猪性别" align="center" prop="pigSex" >
+      <el-table-column label="家猪代号" align="center" prop="pigName" />
+      <el-table-column label="家猪性别" align="center" prop="pigSex" >
         <template slot-scope="scope">
           <el-tag v-if="scope.row.pigSex == 1">雌</el-tag>
           <el-tag v-else>雄</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="野猪年龄" align="center" prop="pigAge" />
-      <el-table-column label="野猪状态" align="center" prop="pigStatus" >
+      <el-table-column label="家猪年龄" align="center" prop="pigAge" />
+      <el-table-column label="家猪状态" align="center" prop="pigStatus" >
         <template slot-scope="scope">
           <el-tag v-if="scope.row.pigStatus ==0 ">空闲中</el-tag>
           <el-tag v-else-if="scope.row.pigStatus==1">配种中</el-tag>
