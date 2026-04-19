@@ -2,6 +2,7 @@ package com.ruoyi.pig.mapper;
 
 import java.util.List;
 import com.ruoyi.pig.domain.Pig;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * pigMapper接口
@@ -41,7 +42,7 @@ public interface PigMapper
      * @param pig pig
      * @return 结果
      */
-    public int updatePig(Pig pig);
+    public int updatePig(Pig pig,@Param("id") Long id);
 
     /**
      * 删除pig

@@ -27,9 +27,9 @@ export function addPig(data) {
 }
 
 // 修改pig
-export function updatePig(data) {
+export function updatePig(data,id) {
   return request({
-    url: '/pig/pig',
+    url: '/pig/pig?id='+id,
     method: 'put',
     data: data
   })

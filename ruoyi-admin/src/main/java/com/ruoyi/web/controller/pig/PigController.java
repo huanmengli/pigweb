@@ -5,6 +5,7 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 
 import com.ruoyi.pig.domain.Pig;
@@ -36,7 +37,7 @@ public class PigController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(Pig pig)
     {
-        System.err.println(pig);
+//        System.err.println(pig);
         startPage();
         List<Pig> list = pigService.selectPigList(pig);
         return getDataTable(list);
@@ -74,7 +75,15 @@ public class PigController extends BaseController
     public AjaxResult add(@RequestBody Pig pig)
     {
         pig.setPigStatus("0");
-        return toAjax(pigService.insertPig(pig));
+        pig.setPigCreateby(getUsername());
+        pig.setPigUpdatetime(DateUtils.getNowDate());
+        pig.setPigCreatetime(DateUtils.getNowDate());
+        System.err.println(pig);
+        try {
+            return toAjax(pigService.insertPig(pig));
+        } catch (Exception e) {
+            return error("信息有误");
+        }
     }
 
     /**
@@ -83,9 +92,17 @@ public class PigController extends BaseController
     @PreAuthorize("@ss.hasPermi('pig:pig:edit')")
     @Log(title = "pig", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody Pig pig)
+    public AjaxResult edit(@RequestBody Pig pig, @RequestParam("id") Long id)
     {
-        return toAjax(pigService.updatePig(pig));
+        pig.setPigUpdatetime(DateUtils.getNowDate());
+        System.err.println(pig);
+        try {
+            return toAjax(pigService.updatePig(pig,id));
+        } catch (Exception e) {
+            return error("信息有误");
+        }
+
+
     }
 
     /**

@@ -55,6 +55,7 @@ public class PigServiceImpl implements IPigService
         return pigMapper.insertPig(pig);
     }
 
+
     /**
      * 修改pig
      * 
@@ -62,9 +63,9 @@ public class PigServiceImpl implements IPigService
      * @return 结果
      */
     @Override
-    public int updatePig(Pig pig)
+    public int updatePig(Pig pig,Long id)
     {
-        return pigMapper.updatePig(pig);
+        return pigMapper.updatePig(pig,id);
     }
 
     /**

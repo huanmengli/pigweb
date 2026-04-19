@@ -41,7 +41,7 @@ public interface IPigService
      * @param pig pig
      * @return 结果
      */
-    public int updatePig(Pig pig);
+    public int updatePig(Pig pig,Long id);
 
     /**
      * 批量删除pig

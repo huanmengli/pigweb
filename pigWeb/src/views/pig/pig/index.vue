@@ -1,4 +1,5 @@
 <template>
+  <!-- 家猪管理 -->
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="家猪日龄" prop="pigAge">
@@ -162,72 +163,85 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改pig对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
-        <el-row>
-         <!-- <el-col :span="24">
-            <el-form-item label="${comment}" prop="pigName">
-              <el-input v-model="form.pigName" placeholder="请输入${comment}" />
-            </el-form-item>
-          </el-col> -->
-          <el-col :span="24">
-            <el-form-item label="家猪日龄" prop="pigAge">
-              <el-input v-model="form.pigAge" placeholder="请输入家猪日龄" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="需要配种的家猪id" prop="pigPigid">
-              <el-input v-model="form.pigPigid" placeholder="请输入需要配种的家猪id" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="家猪创建时间" prop="pigCreatetime">
-              <el-date-picker clearable
-                v-model="form.pigCreatetime"
-                type="date"
-                value-format="yyyy-MM-dd"
-                placeholder="请选择家猪创建时间">
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="家猪修改时间" prop="pigUpdatetime">
-              <el-date-picker clearable
-                v-model="form.pigUpdatetime"
-                type="date"
-                value-format="yyyy-MM-dd"
-                placeholder="请选择家猪修改时间">
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="家猪创建人" prop="pigCreateby">
-              <el-input v-model="form.pigCreateby" placeholder="请输入家猪创建人" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="家猪修改人" prop="pigUpdateby">
-              <el-input v-model="form.pigUpdateby" placeholder="请输入家猪修改人" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
-      </div>
-    </el-dialog>
+    <!-- 添加pig对话框 -->
+   <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+     <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+       <el-row>
+         <el-col :span="24">
+           <el-form-item label="野猪代号" prop="pigName">
+             <el-input v-model="form.pigId" placeholder="请输入野猪代号" />
+           </el-form-item>
+         </el-col>
+         <el-col :span="24">
+           <el-form-item label="野猪日龄" prop="pigAge">
+             <el-input v-model="form.pigAge" placeholder="请输入野猪年龄" />
+           </el-form-item>
+         </el-col>
+         <el-col :span="24">
+           <el-form-item label="性别" prop="pigSex">
+             <el-select v-model="form.pigSex" placeholder="请选择性别" clearable :style="{width: '100%'}">
+               <el-option v-for="(item, index) in sexList" :key="index" :label="item.label"
+                 :value="item.value" :disabled="item.disabled"></el-option>
+             </el-select>
+           </el-form-item>
+         </el-col>
+       </el-row>
+     </el-form>
+     <div slot="footer" class="dialog-footer">
+       <el-button type="primary" @click="submitFormAdd">确 定</el-button>
+       <el-button @click="cancel">取 消</el-button>
+     </div>
+   </el-dialog>
+   <el-dialog :title="title" :visible.sync="openUpdate" width="500px" append-to-body>
+     <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+       <el-row>
+         <el-col :span="24">
+           <el-form-item label="野猪代号" prop="pigName">
+             <el-input v-model="form.pigId" placeholder="请输入野猪代号" />
+           </el-form-item>
+         </el-col>
+         <el-col :span="24">
+           <el-form-item label="野猪日龄" prop="pigAge">
+             <el-input v-model="form.pigAge" placeholder="请输入野猪年龄" />
+           </el-form-item>
+         </el-col>
+         <el-col :span="24">
+           <el-form-item label="性别" prop="pigSex">
+             <el-select v-model="form.pigSex" placeholder="请选择性别" clearable :style="{width: '100%'}">
+               <el-option v-for="(item, index) in sexList" :key="index" :label="item.label"
+                 :value="item.value" :disabled="item.disabled"></el-option>
+             </el-select>
+           </el-form-item>
+         </el-col>
+       </el-row>
+     </el-form>
+     <div slot="footer" class="dialog-footer">
+       <el-button type="primary" @click="submitFormUpdate">确 定</el-button>
+       <el-button @click="cancel">取 消</el-button>
+     </div>
+   </el-dialog>
   </div>
 </template>
 
 <script>
-import { listPig, getPig, delPig, addPig, updatePig } from "@/api/pig/pig"
+import { listPig, getPig, delPig, addPig  } from "@/api/pig/pig"
+import { updatePig } from "../../../api/pig/pig"
 
 export default {
   name: "Pig",
   data() {
     return {
+      pigId:"",
+      sexList:[
+        {
+          "label":"雌",
+          "value":"1"
+        },
+        {
+          "label":"雄",
+          "value":"2"
+        }
+      ],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -246,6 +260,7 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      openUpdate:false,
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -284,6 +299,7 @@ export default {
     // 取消按钮
     cancel() {
       this.open = false
+      this.openUpdate=false
       this.reset()
     },
     // 表单重置
@@ -327,29 +343,41 @@ export default {
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset()
-      const pigId = row.pigId || this.ids
-      getPig(pigId).then(response => {
+      this.pigId = row.pigId || this.ids
+      getPig(this.pigId).then(response => {
         this.form = response.data
-        this.open = true
+        this.openUpdate = true
         this.title = "修改pig"
       })
     },
-    /** 提交按钮 */
-    submitForm() {
+    submitFormAdd(){
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.pigId != null) {
-            updatePig(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功")
-              this.open = false
-              this.getList()
-            })
-          } else {
             addPig(this.form).then(response => {
               this.$modal.msgSuccess("新增成功")
               this.open = false
               this.getList()
             })
+          } else {
+
+          }
+        }
+      })
+    },
+    /** 提交按钮 */
+    submitFormUpdate() {
+      this.$refs["form"].validate(valid => {
+        if (valid) {
+          if (this.form.pigId != null) {
+            updatePig(this.form,this.pigId).then(response => {
+              console.log(response);
+              this.$modal.msgSuccess("修改成功")
+              this.openUpdate = false
+              this.getList()
+            })
+          } else {
+
           }
         }
       })

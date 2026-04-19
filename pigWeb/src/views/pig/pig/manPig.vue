@@ -1,4 +1,5 @@
 <template>
+  <!-- 公猪管理 -->
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="野猪代号" prop="pigName">
@@ -32,7 +33,7 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
+      <!-- <el-col :span="1.5">
         <el-button
           type="primary"
           plain
@@ -63,7 +64,7 @@
           @click="handleDelete"
           v-hasPermi="['pig:pig:remove']"
         >删除</el-button>
-      </el-col>
+      </el-col> -->
       <el-col :span="1.5">
         <el-button
           type="warning"
@@ -80,7 +81,7 @@
     <el-table v-loading="loading" :data="pigList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <!-- <el-table-column label="野猪id" align="center" prop="pigId" /> -->
-      <el-table-column label="家猪代号" align="center" prop="pigName" />
+      <el-table-column label="家猪代号" align="center" prop="pigId" />
       <el-table-column label="家猪性别" align="center" prop="pigSex" >
         <template slot-scope="scope">
           <el-tag v-if="scope.row.pigSex == 1">雌</el-tag>
@@ -98,7 +99,7 @@
       <!-- <el-table-column label="需要配种的野猪id" align="center" prop="pigPigid" /> -->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button
+     <!--     <el-button
             size="mini"
             type="text"
             icon="el-icon-edit"
@@ -111,14 +112,23 @@
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['pig:pig:remove']"
-          >删除</el-button>
+          >删除</el-button> -->
           <el-button
+          v-if="scope.row.pigStatus==0"
             size="small"
             type="text"
             icon="el-icon-add"
             @click="pigPeizhong(scope.row)"
             v-hasPermi="['pig:pig:remove']"
           >配种</el-button>
+          <el-button
+          v-else-if="scope.row.pigStatus==1"
+            size="small"
+            type="text"
+            icon="el-icon-add"
+            @click="pigPeizhong(scope.row)"
+            v-hasPermi="['pig:pig:remove']"
+          >休息</el-button>
         </template>
       </el-table-column>
     </el-table>

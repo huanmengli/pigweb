@@ -2,10 +2,10 @@
   <!-- 分娩页面 -->
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="野猪代号" prop="pigName">
+      <el-form-item label="母猪代号" prop="pigName">
         <el-input
           v-model="queryParams.pigName"
-          placeholder="请输入野猪代号"
+          placeholder="请输入母猪代号"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -81,15 +81,15 @@
     <el-table v-loading="loading" :data="pigList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <!-- <el-table-column label="野猪id" align="center" prop="pigId" /> -->
-      <el-table-column label="野猪代号" align="center" prop="pigName" />
-      <el-table-column label="野猪性别" align="center" prop="pigSex" >
+      <el-table-column label="母猪代号" align="center" prop="pigName" />
+      <el-table-column label="母猪性别" align="center" prop="pigSex" >
         <template slot-scope="scope">
           <el-tag v-if="scope.row.pigSex == 1">雌</el-tag>
           <el-tag v-else>雄</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="野猪年龄" align="center" prop="pigAge" />
-      <el-table-column label="野猪状态" align="center" prop="pigStatus" >
+      <el-table-column label="母猪日龄" align="center" prop="pigAge" />
+      <el-table-column label="母猪状态" align="center" prop="pigStatus" >
         <template slot-scope="scope">
           <el-tag v-if="scope.row.pigStatus ==0 ">空闲中</el-tag>
           <el-tag v-else-if="scope.row.pigStatus==1">配种中</el-tag>
