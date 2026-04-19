@@ -118,8 +118,9 @@
           <el-tag v-if="scope.row.pigStatus == 0">空闲中</el-tag>
           <el-tag v-else-if="scope.row.pigStatus==1">配种中</el-tag>
           <el-tag v-else-if="scope.row.pigStatus==2">妊娠中</el-tag>
-          <el-tag v-else-if="scope.row.pigStatus==3">未断奶中</el-tag>
-          <el-tag v-else-if="scope.row.pigStatus==4">已断奶</el-tag>
+          <el-tag v-else-if="scope.row.pigStatus==3">分娩中</el-tag>
+          <el-tag v-else-if="scope.row.pigStatus==4">未断奶</el-tag>
+          <el-tag v-else-if="scope.row.pigStatus==5">已断奶</el-tag>
         </template>
       </el-table-column>
       <!-- <el-table-column label="需要配种的家猪id" align="center" prop="pigPigid" /> -->
@@ -168,13 +169,13 @@
      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
        <el-row>
          <el-col :span="24">
-           <el-form-item label="野猪代号" prop="pigName">
-             <el-input v-model="form.pigId" placeholder="请输入野猪代号" />
+           <el-form-item label="家猪代号" prop="pigName">
+             <el-input v-model="form.pigId" placeholder="请输入家猪代号" />
            </el-form-item>
          </el-col>
          <el-col :span="24">
-           <el-form-item label="野猪日龄" prop="pigAge">
-             <el-input v-model="form.pigAge" placeholder="请输入野猪年龄" />
+           <el-form-item label="家猪日龄" prop="pigAge">
+             <el-input v-model="form.pigAge" placeholder="请输入家猪年龄" />
            </el-form-item>
          </el-col>
          <el-col :span="24">
@@ -196,13 +197,13 @@
      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
        <el-row>
          <el-col :span="24">
-           <el-form-item label="野猪代号" prop="pigName">
-             <el-input v-model="form.pigId" placeholder="请输入野猪代号" />
+           <el-form-item label="家猪代号" prop="pigName">
+             <el-input v-model="form.pigId" placeholder="请输入家猪代号" />
            </el-form-item>
          </el-col>
          <el-col :span="24">
-           <el-form-item label="野猪日龄" prop="pigAge">
-             <el-input v-model="form.pigAge" placeholder="请输入野猪年龄" />
+           <el-form-item label="家猪日龄" prop="pigAge">
+             <el-input v-model="form.pigAge" placeholder="请输入家猪年龄" />
            </el-form-item>
          </el-col>
          <el-col :span="24">
@@ -338,7 +339,7 @@ export default {
     handleAdd() {
       this.reset()
       this.open = true
-      this.title = "添加pig"
+      this.title = "添加家猪信息"
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -347,7 +348,7 @@ export default {
       getPig(this.pigId).then(response => {
         this.form = response.data
         this.openUpdate = true
-        this.title = "修改pig"
+        this.title = "修改家猪信息"
       })
     },
     submitFormAdd(){

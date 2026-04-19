@@ -2,30 +2,15 @@
   <!-- 公猪管理 -->
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="野猪代号" prop="pigName">
+      <el-form-item label="家猪代号" prop="pigName">
         <el-input
           v-model="queryParams.pigName"
-          placeholder="请输入野猪代号"
+          placeholder="请输入家猪代号"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <!-- <el-form-item label="野猪年龄" prop="pigAge">
-        <el-input
-          v-model="queryParams.pigAge"
-          placeholder="请输入野猪年龄"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="需要配种的野猪id" prop="pigPigid">
-        <el-input
-          v-model="queryParams.pigPigid"
-          placeholder="请输入需要配种的野猪id"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item> -->
+
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -80,7 +65,7 @@
 
     <el-table v-loading="loading" :data="pigList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <!-- <el-table-column label="野猪id" align="center" prop="pigId" /> -->
+      <!-- <el-table-column label="家猪id" align="center" prop="pigId" /> -->
       <el-table-column label="家猪代号" align="center" prop="pigId" />
       <el-table-column label="家猪性别" align="center" prop="pigSex" >
         <template slot-scope="scope">
@@ -91,12 +76,15 @@
       <el-table-column label="家猪年龄" align="center" prop="pigAge" />
       <el-table-column label="家猪状态" align="center" prop="pigStatus" >
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.pigStatus ==0 ">空闲中</el-tag>
+          <el-tag v-if="scope.row.pigStatus == 0">空闲中</el-tag>
           <el-tag v-else-if="scope.row.pigStatus==1">配种中</el-tag>
-          <el-tag v-else>分娩中</el-tag>
+          <el-tag v-else-if="scope.row.pigStatus==2">妊娠中</el-tag>
+          <el-tag v-else-if="scope.row.pigStatus==3">分娩中</el-tag>
+          <el-tag v-else-if="scope.row.pigStatus==4">未断奶</el-tag>
+          <el-tag v-else-if="scope.row.pigStatus==5">已断奶</el-tag>
         </template>
       </el-table-column>
-      <!-- <el-table-column label="需要配种的野猪id" align="center" prop="pigPigid" /> -->
+      <!-- <el-table-column label="需要配种的家猪id" align="center" prop="pigPigid" /> -->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
      <!--     <el-button
@@ -146,13 +134,13 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-row>
           <el-col :span="24">
-            <el-form-item label="野猪代号" prop="pigName">
-              <el-input v-model="form.pigName" placeholder="请输入野猪代号" />
+            <el-form-item label="家猪代号" prop="pigName">
+              <el-input v-model="form.pigName" placeholder="请输入家猪代号" />
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="野猪年龄" prop="pigAge">
-              <el-input v-model="form.pigAge" placeholder="请输入野猪年龄" />
+            <el-form-item label="家猪年龄" prop="pigAge">
+              <el-input v-model="form.pigAge" placeholder="请输入家猪年龄" />
             </el-form-item>
           </el-col>
           <el-col :span="24">
