@@ -11,20 +11,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="pigAge"    column="pig_age"    />
         <result property="pigStatus"    column="pig_status"    />
         <result property="pigPigid"    column="pig_pigid"    />
+        <result property="pigCreatetime"    column="pig_createTime"    />
+        <result property="pigUpdatetime"    column="pig_updateTime"    />
+        <result property="pigCreateby"    column="pig_createBy"    />
+        <result property="pigUpdateby"    column="pig_updateBy"    />
     </resultMap>
 
     <sql id="selectPigVo">
-        select pig_id, pig_name, pig_sex, pig_age, pig_status, pig_pigid from pig
+        select pig_id, pig_name, pig_sex, pig_age, pig_status, pig_pigid, pig_createTime, pig_updateTime, pig_createBy, pig_updateBy from pig
     </sql>
 
     <select id="selectPigList" parameterType="Pig" resultMap="PigResult">
         <include refid="selectPigVo"/>
-        <where>  
+        <where>
             <if test="pigName != null  and pigName != ''"> and pig_name like concat('%', #{pigName}, '%')</if>
             <if test="pigSex != null  and pigSex != ''"> and pig_sex = #{pigSex}</if>
             <if test="pigAge != null  and pigAge != ''"> and pig_age = #{pigAge}</if>
             <if test="pigStatus != null  and pigStatus != ''"> and pig_status = #{pigStatus}</if>
             <if test="pigPigid != null "> and pig_pigid = #{pigPigid}</if>
+            <if test="pigCreatetime != null "> and pig_createTime = #{pigCreatetime}</if>
+            <if test="pigUpdatetime != null "> and pig_updateTime = #{pigUpdatetime}</if>
+            <if test="pigCreateby != null  and pigCreateby != ''"> and pig_createBy = #{pigCreateby}</if>
+            <if test="pigUpdateby != null  and pigUpdateby != ''"> and pig_updateBy = #{pigUpdateby}</if>
+             <if test="pigId != null  and pigId != ''"> and pig_id = #{pigId}</if>
         </where>
     </select>
     
@@ -33,23 +42,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where pig_id = #{pigId}
     </select>
 
-    <insert id="insertPig" parameterType="Pig">
+    <insert id="insertPig" parameterType="Pig" useGeneratedKeys="true" keyProperty="pigId">
         insert into pig
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="pigId != null">pig_id,</if>
             <if test="pigName != null">pig_name,</if>
             <if test="pigSex != null">pig_sex,</if>
             <if test="pigAge != null">pig_age,</if>
             <if test="pigStatus != null">pig_status,</if>
             <if test="pigPigid != null">pig_pigid,</if>
+            <if test="pigCreatetime != null">pig_createTime,</if>
+            <if test="pigUpdatetime != null">pig_updateTime,</if>
+            <if test="pigCreateby != null">pig_createBy,</if>
+            <if test="pigUpdateby != null">pig_updateBy,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="pigId != null">#{pigId},</if>
             <if test="pigName != null">#{pigName},</if>
             <if test="pigSex != null">#{pigSex},</if>
             <if test="pigAge != null">#{pigAge},</if>
             <if test="pigStatus != null">#{pigStatus},</if>
             <if test="pigPigid != null">#{pigPigid},</if>
+            <if test="pigCreatetime != null">#{pigCreatetime},</if>
+            <if test="pigUpdatetime != null">#{pigUpdatetime},</if>
+            <if test="pigCreateby != null">#{pigCreateby},</if>
+            <if test="pigUpdateby != null">#{pigUpdateby},</if>
          </trim>
     </insert>
 
@@ -61,6 +76,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="pigAge != null">pig_age = #{pigAge},</if>
             <if test="pigStatus != null">pig_status = #{pigStatus},</if>
             <if test="pigPigid != null">pig_pigid = #{pigPigid},</if>
+            <if test="pigCreatetime != null">pig_createTime = #{pigCreatetime},</if>
+            <if test="pigUpdatetime != null">pig_updateTime = #{pigUpdatetime},</if>
+            <if test="pigCreateby != null">pig_createBy = #{pigCreateby},</if>
+            <if test="pigUpdateby != null">pig_updateBy = #{pigUpdateby},</if>
         </trim>
         where pig_id = #{pigId}
     </update>

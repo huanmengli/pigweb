@@ -1,5 +1,7 @@
 package com.ruoyi.pig.domain;
 
+import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -9,34 +11,52 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * pig对象 pig
  * 
  * @author ruoyi
- * @date 2026-04-16
+ * @date 2026-04-19
  */
 public class Pig extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** 野猪id */
+    /** 家猪代码 */
     private Long pigId;
 
-    /** 野猪代号 */
-    @Excel(name = "野猪代号")
+    /** $column.columnComment */
+    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
     private String pigName;
 
-    /** 野猪性别 */
-    @Excel(name = "野猪性别")
+    /** 家猪性别 */
+    @Excel(name = "家猪性别")
     private String pigSex;
 
-    /** 野猪年龄 */
-    @Excel(name = "野猪年龄")
+    /** 家猪日龄 */
+    @Excel(name = "家猪日龄")
     private String pigAge;
 
-    /** 野猪状态(0空闲 1配种 2分娩) */
-    @Excel(name = "野猪状态(0空闲 1配种 2分娩)")
+    /** 家猪状态(0空闲 1配种 2怀孕 3未断奶 4断奶小猪) */
+    @Excel(name = "家猪状态(0空闲 1配种 2怀孕 3未断奶 4断奶小猪)")
     private String pigStatus;
 
-    /** 需要配种的野猪id */
-    @Excel(name = "需要配种的野猪id")
+    /** 需要配种的家猪id */
+    @Excel(name = "需要配种的家猪id")
     private Long pigPigid;
+
+    /** 家猪创建时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "家猪创建时间", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date pigCreatetime;
+
+    /** 家猪修改时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "家猪修改时间", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date pigUpdatetime;
+
+    /** 家猪创建人 */
+    @Excel(name = "家猪创建人")
+    private String pigCreateby;
+
+    /** 家猪修改人 */
+    @Excel(name = "家猪修改人")
+    private String pigUpdateby;
 
     public void setPigId(Long pigId) 
     {
@@ -98,6 +118,46 @@ public class Pig extends BaseEntity
         return pigPigid;
     }
 
+    public void setPigCreatetime(Date pigCreatetime) 
+    {
+        this.pigCreatetime = pigCreatetime;
+    }
+
+    public Date getPigCreatetime() 
+    {
+        return pigCreatetime;
+    }
+
+    public void setPigUpdatetime(Date pigUpdatetime) 
+    {
+        this.pigUpdatetime = pigUpdatetime;
+    }
+
+    public Date getPigUpdatetime() 
+    {
+        return pigUpdatetime;
+    }
+
+    public void setPigCreateby(String pigCreateby) 
+    {
+        this.pigCreateby = pigCreateby;
+    }
+
+    public String getPigCreateby() 
+    {
+        return pigCreateby;
+    }
+
+    public void setPigUpdateby(String pigUpdateby) 
+    {
+        this.pigUpdateby = pigUpdateby;
+    }
+
+    public String getPigUpdateby() 
+    {
+        return pigUpdateby;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -107,6 +167,10 @@ public class Pig extends BaseEntity
             .append("pigAge", getPigAge())
             .append("pigStatus", getPigStatus())
             .append("pigPigid", getPigPigid())
+            .append("pigCreatetime", getPigCreatetime())
+            .append("pigUpdatetime", getPigUpdatetime())
+            .append("pigCreateby", getPigCreateby())
+            .append("pigUpdateby", getPigUpdateby())
             .toString();
     }
 }

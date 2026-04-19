@@ -6,6 +6,7 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+
 import com.ruoyi.pig.domain.Pig;
 import com.ruoyi.pig.service.IPigService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,6 +36,7 @@ public class PigController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(Pig pig)
     {
+        System.err.println(pig);
         startPage();
         List<Pig> list = pigService.selectPigList(pig);
         return getDataTable(list);
