@@ -91,4 +91,9 @@ public class PigServiceImpl implements IPigService
     {
         return pigMapper.deletePigByPigId(pigId);
     }
+
+    @Override
+    public int pigChangeStatus(Pig pig) {
+        return pigMapper.pigChangeStatus(pig);
+    }
 }

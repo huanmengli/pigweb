@@ -101,8 +101,6 @@ public class PigController extends BaseController
         } catch (Exception e) {
             return error("信息有误");
         }
-
-
     }
 
     /**
@@ -114,5 +112,10 @@ public class PigController extends BaseController
     public AjaxResult remove(@PathVariable Long[] pigIds)
     {
         return toAjax(pigService.deletePigByPigIds(pigIds));
+    }
+    @PutMapping("status")
+    public AjaxResult pigChangeStatus(@RequestBody Pig pig)
+    {
+        return toAjax(pigService.pigChangeStatus(pig));
     }
 }

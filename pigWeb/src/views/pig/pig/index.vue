@@ -203,7 +203,7 @@
          </el-col>
          <el-col :span="24">
            <el-form-item label="家猪日龄" prop="pigAge">
-             <el-input v-model="form.pigAge" placeholder="请输入家猪年龄" />
+             <el-input v-model="form.pigAge" placeholder="请输入家猪日龄" />
            </el-form-item>
          </el-col>
          <el-col :span="24">

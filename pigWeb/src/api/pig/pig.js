@@ -42,3 +42,11 @@ export function delPig(pigId) {
     method: 'delete'
   })
 }
+
+export function pigChangeStatus(pig){
+  return request({
+    url:"/pig/pig/status",
+    method:"put",
+    data:pig
+  })
+}

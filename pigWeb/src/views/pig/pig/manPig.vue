@@ -106,7 +106,7 @@
             size="small"
             type="text"
             icon="el-icon-add"
-            @click="pigPeizhong(scope.row)"
+            @click="handleUpdate(scope.row)"
             v-hasPermi="['pig:pig:remove']"
           >配种</el-button>
           <el-button
@@ -114,7 +114,7 @@
             size="small"
             type="text"
             icon="el-icon-add"
-            @click="pigPeizhong(scope.row)"
+            @click="pigXiuxi(scope.row)"
             v-hasPermi="['pig:pig:remove']"
           >休息</el-button>
         </template>
@@ -129,45 +129,89 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改pig对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
-        <el-row>
-          <el-col :span="24">
-            <el-form-item label="家猪代号" prop="pigName">
-              <el-input v-model="form.pigName" placeholder="请输入家猪代号" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="家猪年龄" prop="pigAge">
-              <el-input v-model="form.pigAge" placeholder="请输入家猪年龄" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="性别" prop="pigSex">
-              <el-select v-model="form.pigSex" placeholder="请选择性别" clearable :style="{width: '100%'}">
-                <el-option v-for="(item, index) in sexList" :key="index" :label="item.label"
-                  :value="item.value" :disabled="item.disabled"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
-      </div>
+    <!-- 选择配种母猪页面配种-->
+    <el-dialog :title="title" :visible.sync="open" width="900px" append-to-body>
+
+      <el-table v-loading="loading" :data="womanPigList" @selection-change="handleSelectionChange">
+        <el-table-column type="selection" width="55" align="center" />
+        <!-- <el-table-column label="家猪id" align="center" prop="pigId" /> -->
+        <el-table-column label="家猪代号" align="center" prop="pigId" />
+        <el-table-column label="家猪性别" align="center" prop="pigSex" >
+          <template slot-scope="scope">
+            <el-tag v-if="scope.row.pigSex == 1">雌</el-tag>
+            <el-tag v-else>雄</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="家猪年龄" align="center" prop="pigAge" />
+        <el-table-column label="家猪状态" align="center" prop="pigStatus" >
+          <template slot-scope="scope">
+            <el-tag v-if="scope.row.pigStatus == 0">空闲中</el-tag>
+            <el-tag v-else-if="scope.row.pigStatus==1">配种中</el-tag>
+            <el-tag v-else-if="scope.row.pigStatus==2">妊娠中</el-tag>
+            <el-tag v-else-if="scope.row.pigStatus==3">分娩中</el-tag>
+            <el-tag v-else-if="scope.row.pigStatus==4">未断奶</el-tag>
+            <el-tag v-else-if="scope.row.pigStatus==5">已断奶</el-tag>
+          </template>
+        </el-table-column>
+        <!-- <el-table-column label="需要配种的家猪id" align="center" prop="pigPigid" /> -->
+        <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+          <template slot-scope="scope">
+       <!--     <el-button
+              size="mini"
+              type="text"
+              icon="el-icon-edit"
+              @click="handleUpdate(scope.row)"
+              v-hasPermi="['pig:pig:edit']"
+            >修改</el-button>
+            <el-button
+              size="mini"
+              type="text"
+              icon="el-icon-delete"
+              @click="handleDelete(scope.row)"
+              v-hasPermi="['pig:pig:remove']"
+            >删除</el-button> -->
+            <el-button
+            v-if="scope.row.pigStatus==0"
+              size="small"
+              type="text"
+              icon="el-icon-add"
+              @click="pigPeizhong(scope.row)"
+              v-hasPermi="['pig:pig:remove']"
+            >配种</el-button>
+            <el-button
+            v-else-if="scope.row.pigStatus==1"
+              size="small"
+              type="text"
+              icon="el-icon-add"
+              @click="pigXiuxi(scope.row)"
+              v-hasPermi="['pig:pig:remove']"
+            >休息</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <pagination
+        v-show="womanTotle>0"
+        :total="womanTotle"
+        :page.sync="queryParams.pageNum"
+        :limit.sync="queryParams.pageSize"
+        @pagination="getWomanPigList"
+      />
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { listPig, getPig, delPig, addPig, updatePig } from "@/api/pig/pig"
+import {  getPig, delPig, addPig, updatePig } from "@/api/pig/pig"
+import { listPig, pigChangeStatus } from "../../../api/pig/pig"
 
 export default {
   name: "Pig",
   data() {
     return {
+      womanPigList:[],
+      womanTotle:"",
+      manPeizhong:{},
       sexList:[
         {
           "label":"雌",
@@ -218,7 +262,26 @@ export default {
   },
   methods: {
     pigPeizhong(row){
-
+      row.pigStatus="1"
+      console.log(row);
+      console.log(this.manPeizhong);
+      
+      pigChangeStatus(row).then(res=>{
+        this.manPeizhong.pigStatus="1"
+        pigChangeStatus(this.manPeizhong).then(res=>{
+          this.$modal.msgSuccess("配种成功")
+          this.open=false
+        })
+      })
+    },
+    pigXiuxi(row){
+      var data=row
+      data.pigStatus="0"
+      pigChangeStatus(data).then(res=>{
+        this.$modal.msgSuccess("状态调整成功")
+        this.getList()
+      })
+      console.log(data);
     },
     /** 查询pig列表 */
     getList() {
@@ -268,15 +331,52 @@ export default {
       this.open = true
       this.title = "添加pig"
     },
+
+    // 获得配种母猪列表
+    getWomanPigList(){
+      var data= {
+        pageNum: 1,
+        pageSize: 10,
+        pigName: null,
+        pigSex: 1,
+        pigAge: null,
+        pigStatus: 0,
+        pigPigid: null
+      }
+      listPig(data).then(res=>{
+        this.womanTotle=res.total
+        this.womanPigList=res.rows
+      })
+    },
+
+
     /** 修改按钮操作 */
     handleUpdate(row) {
-      this.reset()
-      const pigId = row.pigId || this.ids
-      getPig(pigId).then(response => {
-        this.form = response.data
+      this.manPeizhong=row
+
+      var data= {
+        pageNum: 1,
+        pageSize: 10,
+        pigName: null,
+        pigSex: 1,
+        pigAge: null,
+        pigStatus: 0,
+        pigPigid: null
+      }
+      listPig(data).then(res=>{
+        console.log(res);
+        this.womanTotle=res.total
+        this.womanPigList=res.rows
         this.open = true
-        this.title = "修改pig"
       })
+      this.reset()
+
+      // const pigId = row.pigId || this.ids
+      // getPig(pigId).then(response => {
+      //   this.form = response.data
+
+      //   this.title = "修改pig"
+      // })
     },
     /** 提交按钮 */
     submitForm() {

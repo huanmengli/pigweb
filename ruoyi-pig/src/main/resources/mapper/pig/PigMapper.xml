@@ -86,6 +86,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         where pig_id = #{id}
     </update>
+    <update id="pigChangeStatus" parameterType="com.ruoyi.pig.domain.Pig">
+        update pig set pig_status = #{pigStatus} where pig_id = #{pigId}
+    </update>
 
     <delete id="deletePigByPigId" parameterType="Long">
         delete from pig where pig_id = #{pigId}

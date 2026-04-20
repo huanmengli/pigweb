@@ -59,4 +59,6 @@ public interface PigMapper
      * @return 结果
      */
     public int deletePigByPigIds(Long[] pigIds);
+
+    int pigChangeStatus(Pig pig);
 }

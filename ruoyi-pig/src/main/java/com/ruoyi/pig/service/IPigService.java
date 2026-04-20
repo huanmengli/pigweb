@@ -58,4 +58,5 @@ public interface IPigService
      * @return 结果
      */
     public int deletePigByPigId(Long pigId);
+    int pigChangeStatus(Pig pig);
 }
