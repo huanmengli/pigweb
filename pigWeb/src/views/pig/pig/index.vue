@@ -214,6 +214,18 @@
              </el-select>
            </el-form-item>
          </el-col>
+         <el-col :span="24">
+           <el-form-item label="状态" prop="pigSex">
+             <el-select v-if="form.pigSex==1" v-model="form.pigStatus" placeholder="请选择状态" clearable :style="{width: '100%'}">
+               <el-option v-for="(item, index) in womanStatusList" :key="index" :label="item.label"
+                 :value="item.value" :disabled="item.disabled"></el-option>
+             </el-select>
+             <el-select v-else v-model="form.pigStatus" placeholder="请选择状态" clearable :style="{width: '100%'}">
+               <el-option v-for="(item, index) in manStatusList" :key="index" :label="item.label"
+                 :value="item.value" :disabled="item.disabled"></el-option>
+             </el-select>
+           </el-form-item>
+         </el-col>
        </el-row>
      </el-form>
      <div slot="footer" class="dialog-footer">
@@ -233,6 +245,50 @@ export default {
   data() {
     return {
       pigId:"",
+      manStatusList:[
+        {
+          "label":"空闲中",
+          "value":"0"
+        },
+        {
+          "label":"配种中",
+          "value":"1"
+        },
+        {
+          "label":"未断奶",
+          "value":"4"
+        },
+        {
+          "label":"已断奶",
+          "value":"5"
+        }
+      ],
+      womanStatusList:[
+        {
+          "label":"空闲中",
+          "value":"0"
+        },
+        {
+          "label":"配种中",
+          "value":"1"
+        },
+        {
+          "label":"妊娠中",
+          "value":"2"
+        },
+        {
+          "label":"分娩中",
+          "value":"3"
+        },
+        {
+          "label":"未断奶",
+          "value":"4"
+        },
+        {
+          "label":"已断奶",
+          "value":"5"
+        }
+      ],
       sexList:[
         {
           "label":"雌",
@@ -278,7 +334,18 @@ export default {
         pigUpdateby: null
       },
       // 表单参数
-      form: {},
+      form: {
+        pigId: null,
+        pigName: null,
+        pigSex: null,
+        pigAge: null,
+        pigStatus: null,
+        pigPigid: null,
+        pigCreatetime: null,
+        pigUpdatetime: null,
+        pigCreateby: null,
+        pigUpdateby: null
+      },
       // 表单校验
       rules: {
       }
@@ -355,6 +422,7 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.pigId != null) {
+            this.form.pigStatus="0"
             addPig(this.form).then(response => {
               this.$modal.msgSuccess("新增成功")
               this.open = false

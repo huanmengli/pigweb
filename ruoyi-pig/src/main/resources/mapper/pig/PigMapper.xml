@@ -86,8 +86,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         where pig_id = #{id}
     </update>
-    <update id="pigChangeStatus" parameterType="com.ruoyi.pig.domain.Pig">
-        update pig set pig_status = #{pigStatus} where pig_id = #{pigId}
+    <update id="pigChangeStatus" parameterType="Pig">
+        update pig
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pigName != null">pig_name = #{pigName},</if>
+            <if test="pigSex != null">pig_sex = #{pigSex},</if>
+            <if test="pigAge != null">pig_age = #{pigAge},</if>
+            <if test="pigStatus != null">pig_status = #{pigStatus},</if>
+            <if test="pigPigid != null">pig_pigid = #{pigPigid},</if>
+        </trim>
+        where pig_id = #{pigId}
     </update>
 
     <delete id="deletePigByPigId" parameterType="Long">

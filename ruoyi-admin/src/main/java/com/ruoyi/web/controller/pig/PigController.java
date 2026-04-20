@@ -74,7 +74,7 @@ public class PigController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody Pig pig)
     {
-        pig.setPigStatus("0");
+//        pig.setPigStatus("0");
         pig.setPigCreateby(getUsername());
         pig.setPigUpdatetime(DateUtils.getNowDate());
         pig.setPigCreatetime(DateUtils.getNowDate());

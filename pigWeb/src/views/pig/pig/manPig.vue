@@ -265,9 +265,10 @@ export default {
       row.pigStatus="1"
       console.log(row);
       console.log(this.manPeizhong);
-      
+
       pigChangeStatus(row).then(res=>{
         this.manPeizhong.pigStatus="1"
+        this.manPeizhong.pigPigid=row.pigId
         pigChangeStatus(this.manPeizhong).then(res=>{
           this.$modal.msgSuccess("配种成功")
           this.open=false

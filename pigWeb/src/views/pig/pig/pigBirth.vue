@@ -123,7 +123,7 @@
         <el-row>
           <el-col :span="24">
             <el-form-item label="小猪代号" prop="pigName">
-              <el-input v-model="form.pigName" placeholder="请输入小猪代号" />
+              <el-input v-model="form.pigId" placeholder="请输入小猪代号" />
             </el-form-item>
           </el-col>
          <el-col :span="24">
@@ -151,6 +151,7 @@
 
 <script>
 import { listPig, getPig, delPig, addPig, updatePig } from "@/api/pig/pig"
+import { pigChangeStatus } from "../../../api/pig/pig"
 
 export default {
   name: "Pig",
@@ -191,11 +192,18 @@ export default {
         pigName: null,
         pigSex: null,
         pigAge: null,
-        pigStatus: 2,
+        pigStatus: 3,
         pigPigid: null
       },
       // 表单参数
-      form: {},
+      form: {
+       pigId: '',
+       pigName: '',
+       pigSex: '',
+       pigAge: '',
+       pigStatus: '',
+       pigPigid: ''
+      },
       // 表单校验
       rules: {
       }
@@ -251,10 +259,17 @@ export default {
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
-    handleAdd() {
-      this.reset()
-      this.open = true
-      this.title = "添加小猪"
+    handleAdd(row) {
+      var data=row
+      data.pigStatus="0"
+      this.open=true
+      pigChangeStatus(data).then(res=>{
+        console.log(res);
+        this.reset()
+        this.open = true
+        this.title = "添加小猪"
+      })
+
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -271,12 +286,20 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.pigId != null) {
-            updatePig(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功")
+            this.form.pigStatus='4'
+            addPig(this.form).then(response => {
+              this.$modal.msgSuccess("新增成功")
               this.open = false
               this.getList()
             })
+            // updatePig(this.form).then(response => {
+            //   this.$modal.msgSuccess("修改成功")
+            //   this.open = false
+            //   this.getList()
+            // })
           } else {
+            this.form.pigStatus='4'
+            console.log(this.form);
             addPig(this.form).then(response => {
               this.$modal.msgSuccess("新增成功")
               this.open = false

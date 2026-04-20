@@ -220,7 +220,7 @@
 
 <script>
 import { listPig, getPig, delPig, addPig  } from "@/api/pig/pig"
-import { updatePig } from "../../../api/pig/pig"
+import { pigChangeStatus, updatePig } from "../../../api/pig/pig"
 
 export default {
   name: "Pig",
@@ -337,13 +337,18 @@ export default {
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      this.reset()
-      this.pigId = row.pigId || this.ids
-      getPig(this.pigId).then(response => {
-        this.form = response.data
-        this.openUpdate = true
-        this.title = "修改pig"
+      row.pigStatus="5"
+      pigChangeStatus(row).then(res=>{
+        this.$modal.msgSuccess("断奶成功")
+        this.getList()
       })
+      // this.reset()
+      // this.pigId = row.pigId || this.ids
+      // getPig(this.pigId).then(response => {
+      //   this.form = response.data
+      //   this.openUpdate = true
+      //   this.title = "修改pig"
+      // })
     },
     submitFormAdd(){
       this.$refs["form"].validate(valid => {

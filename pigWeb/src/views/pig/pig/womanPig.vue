@@ -107,7 +107,7 @@
             v-if="scope.row.pigStatus==1"
             type="text"
             icon="el-icon-add"
-            @click="pigPeizhong(scope.row)"
+            @click="pigHuaiyun(scope.row)"
             v-hasPermi="['pig:pig:remove']"
           >妊娠</el-button>
           <el-button
@@ -115,7 +115,7 @@
              v-if="scope.row.pigStatus==1"
              type="text"
              icon="el-icon-add"
-             @click="pigPeizhong(scope.row)"
+             @click="pigXiuxi(scope.row)"
              v-hasPermi="['pig:pig:remove']"
            >休息</el-button>
         </template>
@@ -164,6 +164,7 @@
 
 <script>
 import { listPig, getPig, delPig, addPig, updatePig } from "@/api/pig/pig"
+import { pigChangeStatus } from "../../../api/pig/pig"
 
 export default {
   name: "Pig",
@@ -218,8 +219,17 @@ export default {
     this.getList()
   },
   methods: {
-    pigPeizhong(row){
-
+    pigHuaiyun(row){
+      row.pigStatus="2"
+      pigChangeStatus(row).then(res=>{
+        this.$modal.msgSuccess("状态调整成功")
+      })
+    },
+    pigXiuxi(row){
+      row.pigStatus="0"
+      pigChangeStatus(row).then(res=>{
+        this.$modal.msgSuccess("状态调整成功")
+      })
     },
     /** 查询pig列表 */
     getList() {
