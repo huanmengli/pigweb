@@ -237,6 +237,8 @@ export default {
         this.pigList = response.rows
         this.total = response.total
         this.loading = false
+        // 页面刷新
+        location.reload()
       })
     },
     // 取消按钮

@@ -272,6 +272,7 @@ export default {
         pigChangeStatus(this.manPeizhong).then(res=>{
           this.$modal.msgSuccess("配种成功")
           this.open=false
+          location.reload()
         })
       })
     },
@@ -291,6 +292,8 @@ export default {
         this.pigList = response.rows
         this.total = response.total
         this.loading = false
+        // 页面刷新
+        location.reload()
       })
     },
     // 取消按钮

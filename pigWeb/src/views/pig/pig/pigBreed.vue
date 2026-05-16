@@ -18,7 +18,7 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-     <!-- <el-col :span="1.5">
+     <el-col :span="1.5">
         <el-button
           type="primary"
           plain
@@ -28,7 +28,7 @@
           v-hasPermi="['pig:pig:add']"
         >新增</el-button>
       </el-col>
-      <el-col :span="1.5">
+<!--      <el-col :span="1.5">
         <el-button
           type="success"
           plain
@@ -81,7 +81,7 @@
           <el-tag v-else>分娩中</el-tag>
         </template>
       </el-table-column> -->
-      <el-table-column label="配种母猪id" align="center" prop="pigPigid" />
+      <el-table-column label="配种母猪代号" align="center" prop="pigPigid" />
       <!-- <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -117,23 +117,29 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-row>
           <el-col :span="24">
-            <el-form-item label="家猪代号" prop="pigName">
-              <el-input v-model="form.pigName" placeholder="请输入家猪代号" />
+            <el-form-item label="公猪代号" prop="pigId">
+              <el-select v-model="form.pigId" placeholder="请选择公猪" clearable :style="{width: '100%'}">
+                <el-option v-for="(item, index) in manPigList" :key="index" :label="item.pigId"
+                  :value="item.pigId" :disabled="item.disabled"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="24">
-            <el-form-item label="家猪年龄" prop="pigAge">
-              <el-input v-model="form.pigAge" placeholder="请输入家猪年龄" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
+         <el-col :span="24">
+           <el-form-item label="母猪代号" prop="pigPigid">
+             <el-select v-model="form.pigPigid" placeholder="请选择母猪" clearable :style="{width: '100%'}">
+               <el-option v-for="(item, index) in womanPigList" :key="index" :label="item.pigId"
+                 :value="item.pigId" :disabled="item.disabled"></el-option>
+             </el-select>
+           </el-form-item>
+         </el-col>
+        <!--  <el-col :span="24">
             <el-form-item label="性别" prop="pigSex">
               <el-select v-model="form.pigSex" placeholder="请选择性别" clearable :style="{width: '100%'}">
                 <el-option v-for="(item, index) in sexList" :key="index" :label="item.label"
                   :value="item.value" :disabled="item.disabled"></el-option>
               </el-select>
             </el-form-item>
-          </el-col>
+          </el-col> -->
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -146,6 +152,7 @@
 
 <script>
 import { listPig, getPig, delPig, addPig, updatePig } from "@/api/pig/pig"
+import { pigChangeStatus } from "../../../api/pig/pig"
 
 export default {
   name: "Pig",
@@ -179,6 +186,8 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      manPigList:[],
+      womanPigList:[],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -187,6 +196,26 @@ export default {
         pigSex: 2,
         pigAge: null,
         pigStatus: 1,
+        pigPigid: null
+      },
+      // 查询公猪
+      queryManPigParams: {
+        // pageNum: 1,
+        // pageSize: 10,
+        pigName: null,
+        pigSex: 2,
+        pigAge: null,
+        pigStatus: 0,
+        pigPigid: null
+      },
+      // 查询母猪
+      queryWomanPigParams: {
+        // pageNum: 1,
+        // pageSize: 10,
+        pigName: null,
+        pigSex: 1,
+        pigAge: null,
+        pigStatus: 0,
         pigPigid: null
       },
       // 表单参数
@@ -198,10 +227,24 @@ export default {
   },
   created() {
     this.getList()
+    this.getManList()
+    this.getWomanList()
   },
   methods: {
     pigPeizhong(row){
 
+    },
+    getManList(){
+      listPig(this.queryManPigParams).then(res=>{
+        this.manPigList=res.rows
+        console.log(this.manPigList);
+      })
+    },
+    getWomanList(){
+      listPig(this.queryWomanPigParams).then(res=>{
+        this.womanPigList=res.rows
+        console.log(this.womanPigList);
+      })
     },
     /** 查询pig列表 */
     getList() {
@@ -210,6 +253,8 @@ export default {
         this.pigList = response.rows
         this.total = response.total
         this.loading = false
+        // 页面刷新
+        location.reload()
       })
     },
     // 取消按钮
@@ -249,7 +294,7 @@ export default {
     handleAdd() {
       this.reset()
       this.open = true
-      this.title = "添加pig"
+      this.title = "添加配种记录"
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -263,23 +308,40 @@ export default {
     },
     /** 提交按钮 */
     submitForm() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          if (this.form.pigId != null) {
-            updatePig(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功")
-              this.open = false
-              this.getList()
-            })
-          } else {
-            addPig(this.form).then(response => {
-              this.$modal.msgSuccess("新增成功")
-              this.open = false
-              this.getList()
-            })
-          }
-        }
+      console.log(this.form);
+      this.form.pigStatus="1"
+      pigChangeStatus(this.form).then(res=>{
+        pigChangeStatus({
+        pigId: this.form.pigPigid,
+        pigName: null,
+        pigSex: null,
+        pigAge: null,
+        pigStatus: "1",
+        pigPigid: null
+      }).then(res=>{
+                this.$modal.msgSuccess("新增成功")
+                this.open = false
+                this.getList()
       })
+      })
+      // this.$refs["form"].validate(valid => {
+      //   if (valid) {
+      //     if (this.form.pigId != null) {
+      //       updatePig(this.form).then(response => {
+      //         this.$modal.msgSuccess("修改成功")
+      //         this.open = false
+      //         this.getList()
+      //       })
+      //     } else {
+      //       console.log(this.form);
+      //       // addPig(this.form).then(response => {
+      //       //   this.$modal.msgSuccess("新增成功")
+      //       //   this.open = false
+      //       //   this.getList()
+      //       // })
+      //     }
+      //   }
+      // })
     },
     /** 删除按钮操作 */
     handleDelete(row) {
