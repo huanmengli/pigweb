@@ -84,8 +84,8 @@
       <el-table-column label="家猪代号" align="center" prop="pigId" />
       <el-table-column label="家猪性别" align="center" prop="pigSex" >
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.pigSex == 1">雌</el-tag>
-          <el-tag v-else>雄</el-tag>
+          <el-tag v-if="scope.row.pigSex == 1">母</el-tag>
+          <el-tag v-else>公</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="家猪年龄" align="center" prop="pigAge" />
@@ -172,11 +172,11 @@ export default {
     return {
       sexList:[
         {
-          "label":"雌",
+          "label":"母",
           "value":"1"
         },
         {
-          "label":"雄",
+          "label":"公",
           "value":"2"
         }
       ],

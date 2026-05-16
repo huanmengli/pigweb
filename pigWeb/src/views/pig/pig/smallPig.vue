@@ -1,51 +1,51 @@
 <template>
-  <!-- 家猪管理 -->
+  <!-- 仔猪管理 -->
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="家猪日龄" prop="pigAge">
+      <el-form-item label="仔猪日龄" prop="pigAge">
         <el-input
           v-model="queryParams.pigId"
-          placeholder="请输入家猪代号"
+          placeholder="请输入仔猪代号"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-     <!-- <el-form-item label="需要配种的家猪id" prop="pigPigid">
+     <!-- <el-form-item label="需要配种的仔猪id" prop="pigPigid">
         <el-input
           v-model="queryParams.pigPigid"
-          placeholder="请输入需要配种的家猪id"
+          placeholder="请输入需要配种的仔猪id"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item> -->
-    <!--  <el-form-item label="家猪创建时间" prop="pigCreatetime">
+    <!--  <el-form-item label="仔猪创建时间" prop="pigCreatetime">
         <el-date-picker clearable
           v-model="queryParams.pigCreatetime"
           type="date"
           value-format="yyyy-MM-dd"
-          placeholder="请选择家猪创建时间">
+          placeholder="请选择仔猪创建时间">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="家猪修改时间" prop="pigUpdatetime">
+      <el-form-item label="仔猪修改时间" prop="pigUpdatetime">
         <el-date-picker clearable
           v-model="queryParams.pigUpdatetime"
           type="date"
           value-format="yyyy-MM-dd"
-          placeholder="请选择家猪修改时间">
+          placeholder="请选择仔猪修改时间">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="家猪创建人" prop="pigCreateby">
+      <el-form-item label="仔猪创建人" prop="pigCreateby">
         <el-input
           v-model="queryParams.pigCreateby"
-          placeholder="请输入家猪创建人"
+          placeholder="请输入仔猪创建人"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="家猪修改人" prop="pigUpdateby">
+      <el-form-item label="仔猪修改人" prop="pigUpdateby">
         <el-input
           v-model="queryParams.pigUpdateby"
-          placeholder="请输入家猪修改人"
+          placeholder="请输入仔猪修改人"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -104,16 +104,16 @@
 
     <el-table v-loading="loading" :data="pigList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="家猪代码" align="center" prop="pigId" />
+      <el-table-column label="仔猪代码" align="center" prop="pigId" />
       <!-- <el-table-column label="${comment}" align="center" prop="pigName" /> -->
-      <el-table-column label="家猪性别" align="center" prop="pigSex" >
+      <el-table-column label="仔猪性别" align="center" prop="pigSex" >
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.pigSex == 1">雌</el-tag>
-          <el-tag v-else>雄</el-tag>
+          <el-tag v-if="scope.row.pigSex == 1">母</el-tag>
+          <el-tag v-else>公</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="家猪日龄" align="center" prop="pigAge" />
-      <el-table-column label="家猪状态" align="center" prop="pigStatus" >
+      <el-table-column label="仔猪日龄" align="center" prop="pigAge" />
+      <el-table-column label="仔猪状态" align="center" prop="pigStatus" >
         <template slot-scope="scope">
           <el-tag v-if="scope.row.pigStatus == 0">空闲中</el-tag>
           <el-tag v-else-if="scope.row.pigStatus==1">配种中</el-tag>
@@ -123,19 +123,19 @@
           <el-tag v-else-if="scope.row.pigStatus==5">已断奶</el-tag>
         </template>
       </el-table-column>
-      <!-- <el-table-column label="需要配种的家猪id" align="center" prop="pigPigid" /> -->
-      <el-table-column label="家猪创建时间" align="center" prop="pigCreatetime" width="180">
+      <!-- <el-table-column label="需要配种的仔猪id" align="center" prop="pigPigid" /> -->
+      <el-table-column label="仔猪创建时间" align="center" prop="pigCreatetime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.pigCreatetime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="家猪修改时间" align="center" prop="pigUpdatetime" width="180">
+      <el-table-column label="仔猪修改时间" align="center" prop="pigUpdatetime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.pigUpdatetime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <!-- <el-table-column label="家猪创建人" align="center" prop="pigCreateby" /> -->
-      <!-- <el-table-column label="家猪修改人" align="center" prop="pigUpdateby" /> -->
+      <!-- <el-table-column label="仔猪创建人" align="center" prop="pigCreateby" /> -->
+      <!-- <el-table-column label="仔猪修改人" align="center" prop="pigUpdateby" /> -->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -163,13 +163,13 @@
      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
        <el-row>
          <el-col :span="24">
-           <el-form-item label="家猪代号" prop="pigName">
-             <el-input v-model="form.pigId" placeholder="请输入家猪代号" />
+           <el-form-item label="仔猪代号" prop="pigName">
+             <el-input v-model="form.pigId" placeholder="请输入仔猪代号" />
            </el-form-item>
          </el-col>
          <el-col :span="24">
-           <el-form-item label="家猪日龄" prop="pigAge">
-             <el-input v-model="form.pigAge" placeholder="请输入家猪年龄" />
+           <el-form-item label="仔猪日龄" prop="pigAge">
+             <el-input v-model="form.pigAge" placeholder="请输入仔猪年龄" />
            </el-form-item>
          </el-col>
          <el-col :span="24">
@@ -191,13 +191,13 @@
      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
        <el-row>
          <el-col :span="24">
-           <el-form-item label="家猪代号" prop="pigName">
-             <el-input v-model="form.pigId" placeholder="请输入家猪代号" />
+           <el-form-item label="仔猪代号" prop="pigName">
+             <el-input v-model="form.pigId" placeholder="请输入仔猪代号" />
            </el-form-item>
          </el-col>
          <el-col :span="24">
-           <el-form-item label="家猪日龄" prop="pigAge">
-             <el-input v-model="form.pigAge" placeholder="请输入家猪年龄" />
+           <el-form-item label="仔猪日龄" prop="pigAge">
+             <el-input v-model="form.pigAge" placeholder="请输入仔猪年龄" />
            </el-form-item>
          </el-col>
          <el-col :span="24">
@@ -229,11 +229,11 @@ export default {
       pigId:"",
       sexList:[
         {
-          "label":"雌",
+          "label":"母",
           "value":"1"
         },
         {
-          "label":"雄",
+          "label":"公",
           "value":"2"
         }
       ],
