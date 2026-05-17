@@ -32,6 +32,10 @@ public class Pig extends BaseEntity
     @Excel(name = "家猪日龄")
     private Long pigAge;
 
+//    母猪生育第几窝
+    @Excel(name = "母猪生育第几窝")
+    private Integer pigBirthnum;
+
     /** 家猪状态(0空闲 1配种 2怀孕 3未断奶 4断奶小猪) */
     @Excel(name = "家猪状态(0空闲 1配种 2怀孕 3未断奶 4断奶小猪)")
     private String pigStatus;
@@ -158,6 +162,13 @@ public class Pig extends BaseEntity
         return pigUpdateby;
     }
 
+    public Integer getPigBirthnum() {
+        return pigBirthnum;
+    }
+
+    public void setPigBirthnum(Integer pigBirthnum) {
+        this.pigBirthnum = pigBirthnum;
+    }
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -171,6 +182,7 @@ public class Pig extends BaseEntity
             .append("pigUpdatetime", getPigUpdatetime())
             .append("pigCreateby", getPigCreateby())
             .append("pigUpdateby", getPigUpdateby())
+                .append("pigBirthnum", getPigBirthnum())
             .toString();
     }
 }

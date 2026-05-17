@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="pigName"    column="pig_name"    />
         <result property="pigSex"    column="pig_sex"    />
         <result property="pigAge"    column="pig_age"    />
+        <result property="pigBirthnum" column="pig_birthNum"/>
         <result property="pigStatus"    column="pig_status"    />
         <result property="pigPigid"    column="pig_pigid"    />
         <result property="pigCreatetime"    column="pig_createTime"    />
@@ -18,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectPigVo">
-        select pig_id, pig_name, pig_sex, pig_age, pig_status, pig_pigid, pig_createTime, pig_updateTime, pig_createBy, pig_updateBy from pig
+        select pig_id, pig_name, pig_sex, pig_birthNum,pig_age, pig_status, pig_pigid, pig_createTime, pig_updateTime, pig_createBy, pig_updateBy from pig
     </sql>
 
     <select id="selectPigList" parameterType="Pig" resultMap="PigResult">

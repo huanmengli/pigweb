@@ -105,6 +105,13 @@
             @click="handleAdd(scope.row)"
             v-hasPermi="['pig:pig:remove']"
           >确认分娩</el-button>
+          <el-button
+            size="medium"
+            type="text"
+            icon="el-icon-add"
+            @click="handleSellp(scope.row)"
+            v-hasPermi="['pig:pig:remove']"
+          >休息</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -213,6 +220,10 @@ export default {
     this.getList()
   },
   methods: {
+    handleSellp(row){
+      row.pigStatus=0
+      console.log(row);
+    },
     pigPeizhong(row){
 
     },
@@ -265,12 +276,14 @@ export default {
       var data=row
       data.pigStatus="0"
       this.open=true
-      pigChangeStatus(data).then(res=>{
-        console.log(res);
-        this.reset()
-        this.open = true
-        this.title = "添加小猪"
-      })
+      this.reset()
+      this.open = true
+      // pigChangeStatus(data).then(res=>{
+      //   console.log(res);
+      //   this.reset()
+      //   this.open = true
+      //   this.title = "添加小猪"
+      // })
 
     },
     /** 修改按钮操作 */

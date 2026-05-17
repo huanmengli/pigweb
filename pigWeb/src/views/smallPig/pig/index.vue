@@ -1,46 +1,46 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="小猪年龄" prop="smallPigAge">
+      <el-form-item label="小猪年龄" prop="smallPigId">
         <el-input
-          v-model="queryParams.smallPigAge"
+          v-model="queryParams.smallPigId"
           placeholder="请输入小猪年龄"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="小猪出生时那一窝的数量" prop="smallPigBirthnum">
+    <!--  <el-form-item label="小猪出生时那一窝的数量" prop="smallPigBirthnum">
         <el-input
           v-model="queryParams.smallPigBirthnum"
           placeholder="请输入小猪出生时那一窝的数量"
           clearable
           @keyup.enter.native="handleQuery"
         />
-      </el-form-item>
-      <el-form-item label="小猪的母猪" prop="smallPigPigId">
+      </el-form-item> -->
+      <!-- <el-form-item label="小猪的母猪" prop="smallPigPigId">
         <el-input
           v-model="queryParams.smallPigPigId"
           placeholder="请输入小猪的母猪"
           clearable
           @keyup.enter.native="handleQuery"
         />
-      </el-form-item>
-      <el-form-item label="${comment}" prop="smallPigCreatetime">
+      </el-form-item> -->
+      <!-- <el-form-item label="${comment}" prop="smallPigCreatetime">
         <el-date-picker clearable
           v-model="queryParams.smallPigCreatetime"
           type="date"
           value-format="yyyy-MM-dd"
           placeholder="请选择${comment}">
         </el-date-picker>
-      </el-form-item>
-      <el-form-item label="${comment}" prop="smallPigUpdatetime">
+      </el-form-item> -->
+      <!-- <el-form-item label="${comment}" prop="smallPigUpdatetime">
         <el-date-picker clearable
           v-model="queryParams.smallPigUpdatetime"
           type="date"
           value-format="yyyy-MM-dd"
           placeholder="请选择${comment}">
         </el-date-picker>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -96,21 +96,31 @@
     <el-table v-loading="loading" :data="pigList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="小猪代号" align="center" prop="smallPigId" />
-      <el-table-column label="小猪性别(1母2公)" align="center" prop="smallPigSex" />
+      <el-table-column label="家猪性别" align="center" prop="smallPigSex" >
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.smallPigSex == 1">母</el-tag>
+          <el-tag v-else>公</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="小猪年龄" align="center" prop="smallPigAge" />
       <el-table-column label="小猪出生时那一窝的数量" align="center" prop="smallPigBirthnum" />
-      <el-table-column label="小猪状态(1未断奶2断奶)" align="center" prop="smallPigStatus" />
+      <el-table-column label="小猪状态" align="center" prop="smallPigStatus" >
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.smallPigStatus==1">未断奶</el-tag>
+          <el-tag v-else-if="scope.row.smallPigStatus==2">已断奶</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="小猪的母猪" align="center" prop="smallPigPigId" />
-      <el-table-column label="${comment}" align="center" prop="smallPigCreatetime" width="180">
+      <!-- <el-table-column label="${comment}" align="center" prop="smallPigCreatetime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.smallPigCreatetime, '{y}-{m}-{d}') }}</span>
         </template>
-      </el-table-column>
-      <el-table-column label="${comment}" align="center" prop="smallPigUpdatetime" width="180">
+      </el-table-column> -->
+      <!-- <el-table-column label="${comment}" align="center" prop="smallPigUpdatetime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.smallPigUpdatetime, '{y}-{m}-{d}') }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -130,7 +140,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -158,7 +168,7 @@
               <el-input v-model="form.smallPigPigId" placeholder="请输入小猪的母猪" />
             </el-form-item>
           </el-col>
-          <el-col :span="24">
+          <!-- <el-col :span="24">
             <el-form-item label="${comment}" prop="smallPigCreatetime">
               <el-date-picker clearable
                 v-model="form.smallPigCreatetime"
@@ -167,8 +177,8 @@
                 placeholder="请选择${comment}">
               </el-date-picker>
             </el-form-item>
-          </el-col>
-          <el-col :span="24">
+          </el-col> -->
+          <!-- <el-col :span="24">
             <el-form-item label="${comment}" prop="smallPigUpdatetime">
               <el-date-picker clearable
                 v-model="form.smallPigUpdatetime"
@@ -177,7 +187,7 @@
                 placeholder="请选择${comment}">
               </el-date-picker>
             </el-form-item>
-          </el-col>
+          </el-col> -->
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -217,6 +227,7 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
+        smallPigId: null,
         smallPigSex: null,
         smallPigAge: null,
         smallPigBirthnum: null,

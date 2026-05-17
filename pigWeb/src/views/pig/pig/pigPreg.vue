@@ -33,7 +33,7 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <!-- <el-col :span="1.5">
+      <el-col :span="1.5">
         <el-button
           type="primary"
           plain
@@ -43,7 +43,7 @@
           v-hasPermi="['pig:pig:add']"
         >新增</el-button>
       </el-col>
-      <el-col :span="1.5">
+      <!-- <el-col :span="1.5">
         <el-button
           type="success"
           plain
@@ -53,8 +53,8 @@
           @click="handleUpdate"
           v-hasPermi="['pig:pig:edit']"
         >修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
+      </el-col> -->
+      <!-- <el-col :span="1.5">
         <el-button
           type="danger"
           plain
@@ -132,23 +132,26 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-row>
           <el-col :span="24">
-            <el-form-item label="家猪代号" prop="pigName">
-              <el-input v-model="form.pigName" placeholder="请输入家猪代号" />
+            <el-form-item label="母猪代号" prop="pigId">
+              <el-select v-model="form.pigId" placeholder="请选择母猪" clearable :style="{width: '100%'}">
+                <el-option v-for="(item, index) in womanList" :key="index" :label="item.pigId"
+                  :value="item.pigId" :disabled="item.disabled"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="24">
+          <!-- <el-col :span="24">
             <el-form-item label="家猪年龄" prop="pigAge">
               <el-input v-model="form.pigAge" placeholder="请输入家猪年龄" />
             </el-form-item>
-          </el-col>
-          <el-col :span="24">
+          </el-col> -->
+          <!-- <el-col :span="24">
             <el-form-item label="性别" prop="pigSex">
               <el-select v-model="form.pigSex" placeholder="请选择性别" clearable :style="{width: '100%'}">
                 <el-option v-for="(item, index) in sexList" :key="index" :label="item.label"
                   :value="item.value" :disabled="item.disabled"></el-option>
               </el-select>
             </el-form-item>
-          </el-col>
+          </el-col> -->
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -205,6 +208,17 @@ export default {
         pigStatus: 2,
         pigPigid: null
       },
+      // 母猪查询参数
+      womanQueryParams: {
+        // pageNum: 1,
+        // pageSize: 10,
+        pigName: null,
+        pigSex: 1,
+        pigAge: null,
+        pigStatus: 0,
+        pigPigid: null
+      },
+      womanList:[],
       // 表单参数
       form: {},
       // 表单校验
@@ -214,6 +228,7 @@ export default {
   },
   created() {
     this.getList()
+    this.getWomanList()
   },
   methods: {
     pigXiuxi(row){
@@ -221,6 +236,7 @@ export default {
       pigChangeStatus(row).then(res=>{
         this.$modal.msgSuccess("状态修改成功")
         this.getList()
+        location.reload()
       })
     },
     pigHuaiYun(row){
@@ -228,6 +244,12 @@ export default {
       pigChangeStatus(row).tHen(res=>{
         this.$modal.msgSuccess("状态修改成功")
         this.getList()
+        location.reload()
+      })
+    },
+    getWomanList(){
+      listPig(this.womanQueryParams).then(res=>{
+        this.womanList=res.rows
       })
     },
     /** 查询pig列表 */
@@ -278,7 +300,7 @@ export default {
     handleAdd() {
       this.reset()
       this.open = true
-      this.title = "添加pig"
+      this.title = "添加妊娠记录"
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -294,18 +316,20 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.form.pigStatus="2"
           if (this.form.pigId != null) {
-            updatePig(this.form).then(response => {
+            pigChangeStatus(this.form).then(response => {
               this.$modal.msgSuccess("修改成功")
               this.open = false
               this.getList()
+              location.reload()
             })
           } else {
-            addPig(this.form).then(response => {
-              this.$modal.msgSuccess("新增成功")
-              this.open = false
-              this.getList()
-            })
+            // addPig(this.form).then(response => {
+            //   this.$modal.msgSuccess("新增成功")
+            //   this.open = false
+            //   this.getList()
+            // })
           }
         }
       })
