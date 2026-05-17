@@ -290,7 +290,7 @@ export default {
         this.total = response.total
         this.loading = false
         // 页面刷新
-        location.reload()
+        // location.reload()
       })
     },
     // 取消按钮

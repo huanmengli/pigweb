@@ -30,7 +30,7 @@ public class Pig extends BaseEntity
 
     /** 家猪日龄 */
     @Excel(name = "家猪日龄")
-    private String pigAge;
+    private Long pigAge;
 
     /** 家猪状态(0空闲 1配种 2怀孕 3未断奶 4断奶小猪) */
     @Excel(name = "家猪状态(0空闲 1配种 2怀孕 3未断奶 4断奶小猪)")
@@ -88,12 +88,12 @@ public class Pig extends BaseEntity
         return pigSex;
     }
 
-    public void setPigAge(String pigAge) 
+    public void setPigAge(Long pigAge)
     {
         this.pigAge = pigAge;
     }
 
-    public String getPigAge() 
+    public Long getPigAge()
     {
         return pigAge;
     }
