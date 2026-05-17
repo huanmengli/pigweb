@@ -18,17 +18,17 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-   <!--   <el-col :span="1.5">
+     <el-col :span="1.5">
         <el-button
           type="primary"
           plain
           icon="el-icon-plus"
           size="mini"
-          @click="handleAdd"
+          @click="handlePigAdd"
           v-hasPermi="['pig:pig:add']"
         >新增</el-button>
       </el-col>
-      <el-col :span="1.5">
+      <!-- <el-col :span="1.5">
         <el-button
           type="success"
           plain
@@ -38,8 +38,8 @@
           @click="handleUpdate"
           v-hasPermi="['pig:pig:edit']"
         >修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
+      </el-col> -->
+      <!-- <el-col :span="1.5">
         <el-button
           type="danger"
           plain
@@ -124,6 +124,36 @@
       @pagination="getList"
     />
 
+    <!--添加需要分娩的母猪  -->
+    <el-dialog :title="addtitle" :visible.sync="addOpen" width="500px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+        <el-row>
+          <!-- <el-col :span="24">
+            <el-form-item label="母猪代号" prop="pigName">
+              <el-input v-model="form.pigId" placeholder="请输入母猪代号" />
+            </el-form-item>
+          </el-col> -->
+         <!-- <el-col :span="24">
+            <el-form-item label="小猪日龄" prop="pigAge">
+              <el-input v-model="form.pigAge" placeholder="请输入小猪年龄" />
+            </el-form-item>
+          </el-col> -->
+          <el-col :span="24">
+            <el-form-item label="请选择母猪" prop="pigId">
+              <el-select v-model="form.pigId" placeholder="请选择母猪代号" clearable :style="{width: '100%'}">
+                <el-option v-for="(item, index) in womanList" :key="index" :label="item.pigId"
+                  :value="item.pigId" :disabled="item.disabled"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="addPig">确 定</el-button>
+        <el-button @click="cancel">取 消</el-button>
+      </div>
+    </el-dialog>
+
     <!-- 添加或修改pig对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="100px">
@@ -174,6 +204,8 @@ export default {
           "value":"2"
         }
       ],
+      addtitle:"新增分娩母猪",
+      addOpen:false,
       // 遮罩层
       loading: true,
       // 选中数组
@@ -202,6 +234,17 @@ export default {
         pigStatus: 3,
         pigPigid: null
       },
+      // 母猪查询参数
+      womanQueryParams: {
+        // pageNum: 1,
+        // pageSize: 10,
+        pigName: null,
+        pigSex: 1,
+        pigAge: null,
+        pigStatus: 0,
+        pigPigid: null
+      },
+      womanList:[],
       // 表单参数
       form: {
        pigId: '',
@@ -217,16 +260,38 @@ export default {
     }
   },
   created() {
-    this.getList()
+    this.init()
   },
   methods: {
+    addPig(){
+      this.form.pigStatus="3"
+      console.log(this.form);
+      pigChangeStatus(this.form).then(res=>{
+        this.getList()
+        location.reload()
+      })
+    },
     handleSellp(row){
       row.pigStatus=0
+      pigChangeStatus(row).then(res=>{
+        this.getList()
+      })
       console.log(row);
     },
     pigPeizhong(row){
 
     },
+    init(){
+      this.getList()
+      this.getWomanList()
+    },
+    // 查询母猪列表
+    getWomanList(){
+      listPig(this.womanQueryParams).then(res=>{
+        this.womanList=res.rows
+      })
+    },
+
     /** 查询pig列表 */
     getList() {
       this.loading = true
@@ -241,6 +306,7 @@ export default {
     // 取消按钮
     cancel() {
       this.open = false
+      this.addOpen=false
       this.reset()
     },
     // 表单重置
@@ -271,13 +337,19 @@ export default {
       this.single = selection.length !== 1
       this.multiple = !selection.length
     },
+
+    // 新增母猪
+    handlePigAdd(){
+      this.addOpen=true
+      this.reset()
+    },
+
     /** 新增按钮操作 */
     handleAdd(row) {
       var data=row
       data.pigStatus="0"
       this.open=true
       this.reset()
-      this.open = true
       // pigChangeStatus(data).then(res=>{
       //   console.log(res);
       //   this.reset()

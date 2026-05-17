@@ -226,13 +226,16 @@ export default {
     }
   },
   created() {
-    this.getList()
-    this.getManList()
-    this.getWomanList()
+    this.init()
   },
   methods: {
     pigPeizhong(row){
 
+    },
+    init(){
+      this.getList()
+      this.getManList()
+      this.getWomanList()
     },
     getManList(){
       listPig(this.queryManPigParams).then(res=>{
@@ -277,7 +280,7 @@ export default {
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageNum = 1
-      this.getList()
+      this.init()
     },
     /** 重置按钮操作 */
     resetQuery() {
@@ -321,7 +324,7 @@ export default {
       }).then(res=>{
                 this.$modal.msgSuccess("新增成功")
                 this.open = false
-                this.getList()
+                this.init()
       })
       })
       // this.$refs["form"].validate(valid => {
@@ -349,7 +352,7 @@ export default {
       this.$modal.confirm('是否确认删除pig编号为"' + pigIds + '"的数据项？').then(function() {
         return delPig(pigIds)
       }).then(() => {
-        this.getList()
+        this.init()
         this.$modal.msgSuccess("删除成功")
       }).catch(() => {})
     },
