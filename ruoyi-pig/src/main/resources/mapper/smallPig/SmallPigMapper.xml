@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.smallPig.mapper.SmallPigMapper">
+    
+    <resultMap type="SmallPig" id="SmallPigResult">
+        <result property="smallPigId"    column="small_pig_id"    />
+        <result property="smallPigSex"    column="small_pig_sex"    />
+        <result property="smallPigAge"    column="small_pig_age"    />
+        <result property="smallPigBirthnum"    column="small_pig_birthNum"    />
+        <result property="smallPigStatus"    column="small_pig_status"    />
+        <result property="smallPigPigId"    column="small_pig_pig_id"    />
+        <result property="smallPigCreatetime"    column="small_pig_createTime"    />
+        <result property="smallPigUpdatetime"    column="small_pig_updateTime"    />
+    </resultMap>
+
+    <sql id="selectSmallPigVo">
+        select small_pig_id, small_pig_sex, small_pig_age, small_pig_birthNum, small_pig_status, small_pig_pig_id, small_pig_createTime, small_pig_updateTime from small_pig
+    </sql>
+
+    <select id="selectSmallPigList" parameterType="SmallPig" resultMap="SmallPigResult">
+        <include refid="selectSmallPigVo"/>
+        <where>  
+            <if test="smallPigSex != null  and smallPigSex != ''"> and small_pig_sex = #{smallPigSex}</if>
+            <if test="smallPigAge != null "> and small_pig_age = #{smallPigAge}</if>
+            <if test="smallPigBirthnum != null "> and small_pig_birthNum = #{smallPigBirthnum}</if>
+            <if test="smallPigStatus != null  and smallPigStatus != ''"> and small_pig_status = #{smallPigStatus}</if>
+            <if test="smallPigPigId != null "> and small_pig_pig_id = #{smallPigPigId}</if>
+            <if test="smallPigCreatetime != null "> and small_pig_createTime = #{smallPigCreatetime}</if>
+            <if test="smallPigUpdatetime != null "> and small_pig_updateTime = #{smallPigUpdatetime}</if>
+        </where>
+    </select>
+    
+    <select id="selectSmallPigBySmallPigId" parameterType="Long" resultMap="SmallPigResult">
+        <include refid="selectSmallPigVo"/>
+        where small_pig_id = #{smallPigId}
+    </select>
+
+    <insert id="insertSmallPig" parameterType="SmallPig">
+        insert into small_pig
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="smallPigId != null">small_pig_id,</if>
+            <if test="smallPigSex != null">small_pig_sex,</if>
+            <if test="smallPigAge != null">small_pig_age,</if>
+            <if test="smallPigBirthnum != null">small_pig_birthNum,</if>
+            <if test="smallPigStatus != null">small_pig_status,</if>
+            <if test="smallPigPigId != null">small_pig_pig_id,</if>
+            <if test="smallPigCreatetime != null">small_pig_createTime,</if>
+            <if test="smallPigUpdatetime != null">small_pig_updateTime,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="smallPigId != null">#{smallPigId},</if>
+            <if test="smallPigSex != null">#{smallPigSex},</if>
+            <if test="smallPigAge != null">#{smallPigAge},</if>
+            <if test="smallPigBirthnum != null">#{smallPigBirthnum},</if>
+            <if test="smallPigStatus != null">#{smallPigStatus},</if>
+            <if test="smallPigPigId != null">#{smallPigPigId},</if>
+            <if test="smallPigCreatetime != null">#{smallPigCreatetime},</if>
+            <if test="smallPigUpdatetime != null">#{smallPigUpdatetime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSmallPig" parameterType="SmallPig">
+        update small_pig
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="smallPigSex != null">small_pig_sex = #{smallPigSex},</if>
+            <if test="smallPigAge != null">small_pig_age = #{smallPigAge},</if>
+            <if test="smallPigBirthnum != null">small_pig_birthNum = #{smallPigBirthnum},</if>
+            <if test="smallPigStatus != null">small_pig_status = #{smallPigStatus},</if>
+            <if test="smallPigPigId != null">small_pig_pig_id = #{smallPigPigId},</if>
+            <if test="smallPigCreatetime != null">small_pig_createTime = #{smallPigCreatetime},</if>
+            <if test="smallPigUpdatetime != null">small_pig_updateTime = #{smallPigUpdatetime},</if>
+        </trim>
+        where small_pig_id = #{smallPigId}
+    </update>
+
+    <delete id="deleteSmallPigBySmallPigId" parameterType="Long">
+        delete from small_pig where small_pig_id = #{smallPigId}
+    </delete>
+
+    <delete id="deleteSmallPigBySmallPigIds" parameterType="String">
+        delete from small_pig where small_pig_id in 
+        <foreach item="smallPigId" collection="array" open="(" separator="," close=")">
+            #{smallPigId}
+        </foreach>
+    </delete>
+</mapper>
