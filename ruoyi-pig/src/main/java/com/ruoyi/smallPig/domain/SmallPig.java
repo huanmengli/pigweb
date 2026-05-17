@@ -40,11 +40,9 @@ public class SmallPig extends BaseEntity
     @Excel(name = "小猪的母猪")
     private Long smallPigPigId;
 
-    /** $column.columnComment */
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
     private Date smallPigCreatetime;
 
-    /** $column.columnComment */
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
     private Date smallPigUpdatetime;
 
