@@ -74,6 +74,8 @@
         </template>
       </el-table-column>
       <el-table-column label="母猪日龄" align="center" prop="pigAge" />
+      <el-table-column label="母猪共生育的窝数" align="center" prop="pigBirthnum" />
+      <el-table-column label="母猪共生育的总数" align="center" prop="pigSonNum" />
       <el-table-column label="母猪状态" align="center" prop="pigStatus" >
         <template slot-scope="scope">
           <el-tag v-if="scope.row.pigStatus ==0 ">空闲中</el-tag>
@@ -189,6 +191,7 @@
 <script>
 import { listPig, getPig, delPig, addPig, updatePig } from "@/api/pig/pig"
 import { pigChangeStatus } from "../../../api/pig/pig"
+import { addSmallPig } from "../../../api/smallPig/pig"
 
 export default {
   name: "Pig",
@@ -230,6 +233,8 @@ export default {
         pageSize: 10,
         pigName: null,
         pigSex: null,
+        pigSonNum:null,
+        pigBirthnum:null,
         pigAge: null,
         pigStatus: 3,
         pigPigid: null
@@ -241,6 +246,8 @@ export default {
         pigName: null,
         pigSex: 1,
         pigAge: null,
+        pigSonNum:null,
+        pigBirthnum:null,
         pigStatus: 0,
         pigPigid: null
       },
@@ -258,6 +265,9 @@ export default {
         smallPigUpdatetime: null
       },
       womanList:[],
+      womanPig:{
+
+      },
       // 表单参数
       form: {
        pigId: '',
@@ -280,14 +290,13 @@ export default {
       this.form.pigStatus="3"
       console.log(this.form);
       pigChangeStatus(this.form).then(res=>{
-        this.getList()
         location.reload()
       })
     },
     handleSellp(row){
       row.pigStatus=0
       pigChangeStatus(row).then(res=>{
-        this.getList()
+        location.reload()
       })
       console.log(row);
     },
@@ -359,17 +368,14 @@ export default {
 
     /** 新增按钮操作 */
     handleAdd(row) {
-      var data=row
-      data.pigStatus="0"
       this.smallPigForm.smallPigPigId=row.pigId
-      console.log(row);
-      console.log(this.smallPigForm);
+      this.smallPigForm.smallPigBirthnum=row.pigBirthnum
+      this.womanPig=row
       this.open=true
-      this.reset()
-      // pigChangeStatus(data).then(res=>{
+      console.log(this.womanPig);
+      // pigChangeStatus(row).then(res=>{
       //   console.log(res);
       //   this.reset()
-      //   this.open = true
       //   this.title = "添加小猪"
       // })
 
@@ -390,10 +396,15 @@ export default {
         if (valid) {
           if (this.form.pigId != null) {
             this.form.pigStatus='4'
-            addPig(this.form).then(response => {
+            this.smallPigForm.smallPigStatus="1"
+            addSmallPig(this.smallPigForm).then(response => {
               this.$modal.msgSuccess("新增成功")
               this.open = false
-              this.getList()
+              this.womanPig.pigSonNum++
+              pigChangeStatus(this.womanPig).then(res=>{
+                location.reload()
+              })
+
             })
             // updatePig(this.form).then(response => {
             //   this.$modal.msgSuccess("修改成功")
@@ -402,11 +413,15 @@ export default {
             // })
           } else {
             this.form.pigStatus='4'
-            console.log(this.form);
-            addPig(this.form).then(response => {
+            this.smallPigForm.smallPigStatus="1"
+            addSmallPig(this.smallPigForm).then(response => {
               this.$modal.msgSuccess("新增成功")
               this.open = false
-              this.getList()
+              this.womanPig.pigSonNum++
+              pigChangeStatus(this.womanPig).then(res=>{
+                location.reload()
+              })
+
             })
           }
         }

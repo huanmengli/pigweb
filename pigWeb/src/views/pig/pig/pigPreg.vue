@@ -240,7 +240,9 @@ export default {
     },
     pigHuaiYun(row){
       row.pigStatus="3"
-      pigChangeStatus(row).tHen(res=>{
+      row.pigBirthnum++
+      // console.log(row);
+      pigChangeStatus(row).then(res=>{
         this.$modal.msgSuccess("状态修改成功")
         this.init()
         location.reload()

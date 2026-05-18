@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 查询smallPig列表
-export function listPig(query) {
+export function listSmallPig(query) {
   return request({
     url: '/smallPig/pig/list',
     method: 'get',
@@ -10,7 +10,7 @@ export function listPig(query) {
 }
 
 // 查询smallPig详细
-export function getPig(smallPigId) {
+export function getSmallPig(smallPigId) {
   return request({
     url: '/smallPig/pig/' + smallPigId,
     method: 'get'
@@ -18,7 +18,7 @@ export function getPig(smallPigId) {
 }
 
 // 新增smallPig
-export function addPig(data) {
+export function addSmallPig(data) {
   return request({
     url: '/smallPig/pig',
     method: 'post',
@@ -27,7 +27,7 @@ export function addPig(data) {
 }
 
 // 修改smallPig
-export function updatePig(data) {
+export function updateSmallPig(data) {
   return request({
     url: '/smallPig/pig',
     method: 'put',
@@ -36,7 +36,7 @@ export function updatePig(data) {
 }
 
 // 删除smallPig
-export function delPig(smallPigId) {
+export function delSmallPig(smallPigId) {
   return request({
     url: '/smallPig/pig/' + smallPigId,
     method: 'delete'

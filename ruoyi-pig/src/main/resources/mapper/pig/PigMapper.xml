@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="pigSex"    column="pig_sex"    />
         <result property="pigAge"    column="pig_age"    />
         <result property="pigBirthnum" column="pig_birthNum"/>
+        <result property="pigSonNum" column="pig_son_num"/>
         <result property="pigStatus"    column="pig_status"    />
         <result property="pigPigid"    column="pig_pigid"    />
         <result property="pigCreatetime"    column="pig_createTime"    />
@@ -19,7 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectPigVo">
-        select pig_id, pig_name, pig_sex, pig_birthNum,pig_age, pig_status, pig_pigid, pig_createTime, pig_updateTime, pig_createBy, pig_updateBy from pig
+        select pig_id, pig_name, pig_sex, pig_birthNum, pig_son_num,pig_age, pig_status, pig_pigid, pig_createTime, pig_updateTime, pig_createBy, pig_updateBy from pig
     </sql>
 
     <select id="selectPigList" parameterType="Pig" resultMap="PigResult">
@@ -51,6 +52,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="pigSex != null">pig_sex,</if>
             <if test="pigAge != null">pig_age,</if>
             <if test="pigStatus != null">pig_status,</if>
+            <if test="pigBirthnum != null">pig_birthNum,</if>
+            <if test="pigSonNum != null">pig_son_num,</if>
             <if test="pigPigid != null">pig_pigid,</if>
             <if test="pigCreatetime != null">pig_createTime,</if>
             <if test="pigUpdatetime != null">pig_updateTime,</if>
@@ -63,6 +66,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="pigSex != null">#{pigSex},</if>
             <if test="pigAge != null">#{pigAge},</if>
             <if test="pigStatus != null">#{pigStatus},</if>
+            <if test="pigBirthnum != null">#{pigBirthnum},</if>
+            <if test="pigSonNum != null">#{pigSonNum},</if>
             <if test="pigPigid != null">#{pigPigid},</if>
             <if test="pigCreatetime != null">#{pigCreatetime},</if>
             <if test="pigUpdatetime != null">#{pigUpdatetime},</if>
@@ -79,6 +84,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="pig.pigSex != null">pig_sex = #{pig.pigSex},</if>
             <if test="pig.pigAge != null">pig_age = #{pig.pigAge},</if>
             <if test="pig.pigStatus != null">pig_status = #{pig.pigStatus},</if>
+            <if test="pig.pigBirthnum != null">pig_birthNum = #{pig.pigBirthnum},</if>
+            <if test="pig.pigSonNum != null">pig_son_num = #{pig.pigSonNum},</if>
             <if test="pig.pigPigid != null">pig_pigid = #{pig.pigPigid},</if>
             <if test="pig.pigCreatetime != null">pig_createTime = #{pig.pigCreatetime},</if>
             <if test="pig.pigUpdatetime != null">pig_updateTime = #{pig.pigUpdatetime},</if>
@@ -94,6 +101,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="pigSex != null">pig_sex = #{pigSex},</if>
             <if test="pigAge != null">pig_age = #{pigAge},</if>
             <if test="pigStatus != null">pig_status = #{pigStatus},</if>
+            <if test="pigBirthnum != null">pig_birthNum = #{pigBirthnum},</if>
+            <if test="pigSonNum != null">pig_son_num = #{pigSonNum},</if>
             <if test="pigPigid != null">pig_pigid = #{pigPigid},</if>
         </trim>
         where pig_id = #{pigId}

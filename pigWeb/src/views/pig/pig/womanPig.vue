@@ -118,6 +118,30 @@
              @click="pigXiuxi(scope.row)"
              v-hasPermi="['pig:pig:remove']"
            >休息</el-button>
+           <el-button
+              size="small"
+              v-if="scope.row.pigStatus==2"
+              type="text"
+              icon="el-icon-add"
+              @click="pigRenshen(scope.row)"
+              v-hasPermi="['pig:pig:remove']"
+            >确认妊娠</el-button>
+            <el-button
+               size="small"
+               v-if="scope.row.pigStatus==3"
+               type="text"
+               icon="el-icon-add"
+               @click="pigRenshen(scope.row)"
+               v-hasPermi="['pig:pig:remove']"
+             >开始分娩</el-button>
+             <el-button
+                size="small"
+                v-if="scope.row.pigStatus==3"
+                type="text"
+                icon="el-icon-add"
+                @click="pigRenshen(scope.row)"
+                v-hasPermi="['pig:pig:remove']"
+              >休息</el-button>
         </template>
       </el-table-column>
     </el-table>

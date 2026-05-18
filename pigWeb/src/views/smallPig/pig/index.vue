@@ -103,7 +103,7 @@
         </template>
       </el-table-column>
       <el-table-column label="小猪年龄" align="center" prop="smallPigAge" />
-      <el-table-column label="小猪出生时那一窝的数量" align="center" prop="smallPigBirthnum" />
+      <el-table-column label="小猪第几窝出生" align="center" prop="smallPigBirthnum" />
       <el-table-column label="小猪状态" align="center" prop="smallPigStatus" >
         <template slot-scope="scope">
           <el-tag v-if="scope.row.smallPigStatus==1">未断奶</el-tag>
@@ -159,7 +159,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="小猪出生时那一窝的数量" prop="smallPigBirthnum">
+            <el-form-item label="小猪第几窝出生" prop="smallPigBirthnum">
               <el-input v-model="form.smallPigBirthnum" placeholder="请输入小猪出生时那一窝的数量" />
             </el-form-item>
           </el-col>
@@ -200,6 +200,7 @@
 
 <script>
 import { listPig, getPig, delPig, addPig, updatePig } from "@/api/smallPig/pig"
+import { addSmallPig, delSmallPig, getSmallPig, listSmallPig, updateSmallPig } from "../../../api/smallPig/pig"
 
 export default {
   name: "Pig",
@@ -250,7 +251,7 @@ export default {
     /** 查询smallPig列表 */
     getList() {
       this.loading = true
-      listPig(this.queryParams).then(response => {
+      listSmallPig(this.queryParams).then(response => {
         this.pigList = response.rows
         this.total = response.total
         this.loading = false
@@ -301,7 +302,7 @@ export default {
     handleUpdate(row) {
       this.reset()
       const smallPigId = row.smallPigId || this.ids
-      getPig(smallPigId).then(response => {
+      getSmallPig(smallPigId).then(response => {
         this.form = response.data
         this.open = true
         this.title = "修改smallPig"
@@ -312,13 +313,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.smallPigId != null) {
-            updatePig(this.form).then(response => {
+            updateSmallPig(this.form).then(response => {
               this.$modal.msgSuccess("修改成功")
               this.open = false
               this.getList()
             })
           } else {
-            addPig(this.form).then(response => {
+            addSmallPig(this.form).then(response => {
               this.$modal.msgSuccess("新增成功")
               this.open = false
               this.getList()
@@ -331,7 +332,7 @@ export default {
     handleDelete(row) {
       const smallPigIds = row.smallPigId || this.ids
       this.$modal.confirm('是否确认删除smallPig编号为"' + smallPigIds + '"的数据项？').then(function() {
-        return delPig(smallPigIds)
+        return delSmallPig(smallPigIds)
       }).then(() => {
         this.getList()
         this.$modal.msgSuccess("删除成功")

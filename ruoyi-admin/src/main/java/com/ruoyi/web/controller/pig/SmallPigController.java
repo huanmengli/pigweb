@@ -71,7 +71,13 @@ public class SmallPigController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody SmallPig smallPig)
     {
-        return toAjax(smallPigService.insertSmallPig(smallPig));
+        try {
+            return toAjax(smallPigService.insertSmallPig(smallPig));
+        }catch (Exception e){
+            return error("信息有误");
+        }
+
+
     }
 
     /**
