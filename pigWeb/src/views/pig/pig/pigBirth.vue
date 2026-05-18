@@ -156,21 +156,21 @@
 
     <!-- 添加或修改pig对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+      <el-form ref="form" :model="smallPigForm" :rules="rules" label-width="100px">
         <el-row>
           <el-col :span="24">
             <el-form-item label="小猪代号" prop="pigName">
-              <el-input v-model="form.pigId" placeholder="请输入小猪代号" />
+              <el-input v-model="smallPigForm.smallPigId" placeholder="请输入小猪代号" />
             </el-form-item>
           </el-col>
          <el-col :span="24">
             <el-form-item label="小猪日龄" prop="pigAge">
-              <el-input v-model="form.pigAge" placeholder="请输入小猪年龄" />
+              <el-input v-model="smallPigForm.smallPigAge" placeholder="请输入小猪年龄" />
             </el-form-item>
           </el-col>
           <el-col :span="24">
             <el-form-item label="性别" prop="pigSex">
-              <el-select v-model="form.pigSex" placeholder="请选择性别" clearable :style="{width: '100%'}">
+              <el-select v-model="smallPigForm.smallPigSex" placeholder="请选择性别" clearable :style="{width: '100%'}">
                 <el-option v-for="(item, index) in sexList" :key="index" :label="item.label"
                   :value="item.value" :disabled="item.disabled"></el-option>
               </el-select>
@@ -243,6 +243,19 @@ export default {
         pigAge: null,
         pigStatus: 0,
         pigPigid: null
+      },
+      // 小猪查询参数
+      smallPigForm: {
+        // pageNum: 1,
+        // pageSize: 10,
+        smallPigId: null,
+        smallPigSex: null,
+        smallPigAge: null,
+        smallPigBirthnum: null,
+        smallPigStatus: null,
+        smallPigPigId: null,
+        smallPigCreatetime: null,
+        smallPigUpdatetime: null
       },
       womanList:[],
       // 表单参数
@@ -348,6 +361,9 @@ export default {
     handleAdd(row) {
       var data=row
       data.pigStatus="0"
+      this.smallPigForm.smallPigPigId=row.pigId
+      console.log(row);
+      console.log(this.smallPigForm);
       this.open=true
       this.reset()
       // pigChangeStatus(data).then(res=>{

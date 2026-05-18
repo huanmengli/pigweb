@@ -32,6 +32,11 @@ public class Pig extends BaseEntity
     @Excel(name = "家猪日龄")
     private Long pigAge;
 
+//    母猪一共生了多少只猪
+    @Excel(name = "母猪一共生了多少只猪")
+    private Long pigSonNum;
+
+
 //    母猪生育第几窝
     @Excel(name = "母猪生育第几窝")
     private Integer pigBirthnum;
@@ -166,6 +171,14 @@ public class Pig extends BaseEntity
         return pigBirthnum;
     }
 
+    public Long getPigSonNum() {
+        return pigSonNum;
+    }
+
+    public void setPigSonNum(Long pigSonNum) {
+        this.pigSonNum = pigSonNum;
+    }
+
     public void setPigBirthnum(Integer pigBirthnum) {
         this.pigBirthnum = pigBirthnum;
     }
@@ -183,6 +196,7 @@ public class Pig extends BaseEntity
             .append("pigCreateby", getPigCreateby())
             .append("pigUpdateby", getPigUpdateby())
                 .append("pigBirthnum", getPigBirthnum())
+                .append("pigSonNum", getPigSonNum())
             .toString();
     }
 }
