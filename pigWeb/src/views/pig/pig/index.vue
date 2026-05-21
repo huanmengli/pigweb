@@ -339,6 +339,8 @@ export default {
         pigName: null,
         pigSex: null,
         pigAge: null,
+        pigSonNum:null,
+        pigBirthnum:null,
         pigStatus: null,
         pigPigid: null,
         pigCreatetime: null,
@@ -421,6 +423,8 @@ export default {
       })
     },
     submitFormAdd(){
+      this.form.pigSonNum=0
+      this.form.pigBirthnum=0
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.pigId != null) {

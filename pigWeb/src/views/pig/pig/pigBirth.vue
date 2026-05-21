@@ -80,7 +80,8 @@
         <template slot-scope="scope">
           <el-tag v-if="scope.row.pigStatus ==0 ">空闲中</el-tag>
           <el-tag v-else-if="scope.row.pigStatus==1">配种中</el-tag>
-          <el-tag v-else>分娩中</el-tag>
+          <el-tag v-else-if="scope.row.pigStatus==3">分娩中</el-tag>
+          <el-tag v-else-if="scope.row.pigStatus==6">带仔中</el-tag>
         </template>
       </el-table-column>
       <!-- <el-table-column label="需要配种的家猪id" align="center" prop="pigPigid" /> -->
@@ -232,11 +233,11 @@ export default {
         pageNum: 1,
         pageSize: 10,
         pigName: null,
-        pigSex: null,
+        pigSex: 1,
         pigSonNum:null,
         pigBirthnum:null,
         pigAge: null,
-        pigStatus: 3,
+        // pigStatus: 3,
         pigPigid: null
       },
       // 母猪查询参数
@@ -321,7 +322,14 @@ export default {
     getList() {
       this.loading = true
       listPig(this.queryParams).then(response => {
+
         this.pigList = response.rows
+        var list=this.pigList
+        this.pigList= list.filter(item=> {
+          if(item.pigStatus==3||item.pigStatus==6){
+            return item
+          }
+        })
         this.total = response.total
         this.loading = false
         // 页面刷新
@@ -421,6 +429,7 @@ export default {
               this.$modal.msgSuccess("新增成功")
               this.open = false
               this.womanPig.pigSonNum++
+              this.womanPig.pigStatus="6"
               pigChangeStatus(this.womanPig).then(res=>{
                 this.init()
                 // location.reload()
