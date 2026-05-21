@@ -235,7 +235,7 @@ export default {
       pigChangeStatus(row).then(res=>{
         this.$modal.msgSuccess("状态修改成功")
         this.init()
-        location.reload()
+        // location.reload()
       })
     },
     pigHuaiYun(row){
@@ -245,7 +245,7 @@ export default {
       pigChangeStatus(row).then(res=>{
         this.$modal.msgSuccess("状态修改成功")
         this.init()
-        location.reload()
+        // location.reload()
       })
     },
     init(){
@@ -327,7 +327,7 @@ export default {
               this.$modal.msgSuccess("修改成功")
               this.open = false
               this.init()
-              location.reload()
+              // location.reload()
             })
           } else {
             // addPig(this.form).then(response => {

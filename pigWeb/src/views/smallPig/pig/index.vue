@@ -149,23 +149,47 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改smallPig对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <!-- 添加mallPig对话框 -->
+    <el-dialog title="添加小猪" :visible.sync="openAdd" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-row>
           <el-col :span="24">
-            <el-form-item label="小猪年龄" prop="smallPigAge">
-              <el-input v-model="form.smallPigAge" placeholder="请输入小猪年龄" />
+            <el-form-item label="小猪代号" prop="smallPigId">
+              <el-input v-model="form.smallPigId" placeholder="请输入小猪代号" />
             </el-form-item>
           </el-col>
           <el-col :span="24">
+            <el-form-item label="小猪日龄" prop="smallPigAge">
+              <el-input v-model="form.smallPigAge" placeholder="请输入小猪日龄" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="请选择状态" prop="pigSex">
+              <el-select  v-model="form.smallPigSex" placeholder="请选择性别" clearable :style="{width: '100%'}">
+                <el-option v-for="(item, index) in sexList" :key="index" :label="item.label"
+                  :value="item.value" :disabled="item.disabled"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <!-- <el-col :span="24">
             <el-form-item label="小猪第几窝出生" prop="smallPigBirthnum">
               <el-input v-model="form.smallPigBirthnum" placeholder="请输入小猪出生时那一窝的数量" />
             </el-form-item>
+          </el-col> -->
+          <el-col :span="24">
+            <el-form-item label="请选择状态" prop="smallPigStatus">
+              <el-select  v-model="form.smallPigStatus" placeholder="请选择状态" clearable :style="{width: '100%'}">
+                <el-option v-for="(item, index) in womanStatusList" :key="index" :label="item.label"
+                  :value="item.value" :disabled="item.disabled"></el-option>
+              </el-select>
+            </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="小猪的母猪" prop="smallPigPigId">
-              <el-input v-model="form.smallPigPigId" placeholder="请输入小猪的母猪" />
+            <el-form-item label="请选择母猪" prop="pigSex">
+              <el-select  v-model="form.smallPigPigId" placeholder="请选择母猪" clearable :style="{width: '100%'}">
+                <el-option v-for="(item, index) in womanList" :key="index" :label="item.pigName"
+                  :value="item.pigId" :disabled="item.disabled"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <!-- <el-col :span="24">
@@ -191,7 +215,76 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button type="primary" @click="submitFormAdd">确 定</el-button>
+        <el-button @click="cancel">取 消</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog title="修改信息" :visible.sync="open" width="500px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="小猪代号" prop="smallPigId">
+              <el-input v-model="form.smallPigId" placeholder="请输入小猪代号" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="小猪日龄" prop="smallPigAge">
+              <el-input v-model="form.smallPigAge" placeholder="请输入小猪日龄" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="请选择状态" prop="pigSex">
+              <el-select  v-model="form.smallPigSex" placeholder="请选择性别" clearable :style="{width: '100%'}">
+                <el-option v-for="(item, index) in sexList" :key="index" :label="item.label"
+                  :value="item.value" :disabled="item.disabled"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <!-- <el-col :span="24">
+            <el-form-item label="小猪第几窝出生" prop="smallPigBirthnum">
+              <el-input v-model="form.smallPigBirthnum" placeholder="请输入小猪出生时那一窝的数量" />
+            </el-form-item>
+          </el-col> -->
+          <el-col :span="24">
+            <el-form-item label="请选择状态" prop="smallPigStatus">
+              <el-select  v-model="form.smallPigStatus" placeholder="请选择状态" clearable :style="{width: '100%'}">
+                <el-option v-for="(item, index) in womanStatusList" :key="index" :label="item.label"
+                  :value="item.value" :disabled="item.disabled"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="请选择母猪" prop="pigSex">
+              <el-select  v-model="form.smallPigPigId" placeholder="请选择母猪" clearable :style="{width: '100%'}">
+                <el-option v-for="(item, index) in womanList" :key="index" :label="item.pigName"
+                  :value="item.pigId" :disabled="item.disabled"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <!-- <el-col :span="24">
+            <el-form-item label="${comment}" prop="smallPigCreatetime">
+              <el-date-picker clearable
+                v-model="form.smallPigCreatetime"
+                type="date"
+                value-format="yyyy-MM-dd"
+                placeholder="请选择${comment}">
+              </el-date-picker>
+            </el-form-item>
+          </el-col> -->
+          <!-- <el-col :span="24">
+            <el-form-item label="${comment}" prop="smallPigUpdatetime">
+              <el-date-picker clearable
+                v-model="form.smallPigUpdatetime"
+                type="date"
+                value-format="yyyy-MM-dd"
+                placeholder="请选择${comment}">
+              </el-date-picker>
+            </el-form-item>
+          </el-col> -->
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitFormPut">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
@@ -199,13 +292,23 @@
 </template>
 
 <script>
-import { listPig, getPig, delPig, addPig, updatePig } from "@/api/smallPig/pig"
+import { getPig, listPig, pigChangeStatus } from "../../../api/pig/pig"
 import { addSmallPig, delSmallPig, getSmallPig, listSmallPig, updateSmallPig } from "../../../api/smallPig/pig"
 
 export default {
   name: "Pig",
   data() {
     return {
+      womanStatusList:[
+        {
+          "label":"未断奶",
+          "value":"1"
+        },
+        {
+          "label":"已断奶",
+          "value":"2"
+        },
+      ],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -220,8 +323,10 @@ export default {
       total: 0,
       // smallPig表格数据
       pigList: [],
+      womanList:[],
       // 弹出层标题
       title: "",
+      openAdd:false,
       // 是否显示弹出层
       open: false,
       // 查询参数
@@ -241,13 +346,27 @@ export default {
       form: {},
       // 表单校验
       rules: {
-      }
+      },
+      sexList:[
+        {
+          "label":"母",
+          "value":"1"
+        },
+        {
+          "label":"公",
+          "value":"2"
+        }
+      ],
     }
   },
   created() {
-    this.getList()
+    this.init()
   },
   methods: {
+    init(){
+      this.getList()
+      this.getWomanList()
+    },
     /** 查询smallPig列表 */
     getList() {
       this.loading = true
@@ -255,6 +374,17 @@ export default {
         this.pigList = response.rows
         this.total = response.total
         this.loading = false
+      })
+    },
+    getWomanList(){
+      listPig({
+        pigName: null,
+        pigSex: 1,
+        pigAge: null,
+        pigStatus: null,
+        pigPigid: null
+      },).then(res=>{
+        this.womanList=res.rows
       })
     },
     // 取消按钮
@@ -295,7 +425,7 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       this.reset()
-      this.open = true
+      this.openAdd = true
       this.title = "添加smallPig"
     },
     /** 修改按钮操作 */
@@ -308,25 +438,40 @@ export default {
         this.title = "修改smallPig"
       })
     },
-    /** 提交按钮 */
-    submitForm() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          if (this.form.smallPigId != null) {
-            updateSmallPig(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功")
-              this.open = false
-              this.getList()
-            })
-          } else {
-            addSmallPig(this.form).then(response => {
-              this.$modal.msgSuccess("新增成功")
-              this.open = false
-              this.getList()
-            })
-          }
-        }
+    submitFormPut(){
+      updateSmallPig(this.form).then(response => {
+        this.$modal.msgSuccess("修改成功")
+        this.open = false
+        this.init()
       })
+    },
+    /** 提交按钮 */
+    submitFormAdd() {
+      getPig(this.form.smallPigPigId).then(res=>{
+        console.log(res.data);
+        this.form.smallPigBirthnum=res.data.pigBirthnum
+        addSmallPig(this.form).then(response => {
+          this.$modal.msgSuccess("新增成功")
+          this.openAdd = false
+          this.init()
+          res.data.pigSonNum++
+          pigChangeStatus(res.data)
+        })
+      })
+
+      // this.$refs["form"].validate(valid => {
+      //   if (valid) {
+      //     if (this.form.smallPigId != null) {
+      //       updateSmallPig(this.form).then(response => {
+      //         this.$modal.msgSuccess("修改成功")
+      //         this.openAdd = false
+      //         this.init()
+      //       })
+      //     } else {
+
+      //     }
+      //   }
+      // })
     },
     /** 删除按钮操作 */
     handleDelete(row) {
@@ -334,7 +479,7 @@ export default {
       this.$modal.confirm('是否确认删除smallPig编号为"' + smallPigIds + '"的数据项？').then(function() {
         return delSmallPig(smallPigIds)
       }).then(() => {
-        this.getList()
+        this.init()
         this.$modal.msgSuccess("删除成功")
       }).catch(() => {})
     },

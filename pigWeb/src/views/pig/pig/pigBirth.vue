@@ -290,13 +290,16 @@ export default {
       this.form.pigStatus="3"
       console.log(this.form);
       pigChangeStatus(this.form).then(res=>{
-        location.reload()
+        this.init()
+        this.addOpen=false
+        // location.reload()
       })
     },
     handleSellp(row){
       row.pigStatus=0
       pigChangeStatus(row).then(res=>{
-        location.reload()
+        this.init()
+        // location.reload()
       })
       console.log(row);
     },
@@ -402,7 +405,7 @@ export default {
               this.open = false
               this.womanPig.pigSonNum++
               pigChangeStatus(this.womanPig).then(res=>{
-                location.reload()
+                // location.reload()
               })
 
             })
@@ -419,7 +422,8 @@ export default {
               this.open = false
               this.womanPig.pigSonNum++
               pigChangeStatus(this.womanPig).then(res=>{
-                location.reload()
+                this.init()
+                // location.reload()
               })
 
             })

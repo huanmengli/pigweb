@@ -272,7 +272,7 @@ export default {
         pigChangeStatus(this.manPeizhong).then(res=>{
           this.$modal.msgSuccess("配种成功")
           this.open=false
-          location.reload()
+          // location.reload()
         })
       })
     },

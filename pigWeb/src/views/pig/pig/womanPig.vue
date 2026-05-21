@@ -139,7 +139,7 @@
                 v-if="scope.row.pigStatus==3"
                 type="text"
                 icon="el-icon-add"
-                @click="pigRenshen(scope.row)"
+                @click="pigXiuxi(scope.row)"
                 v-hasPermi="['pig:pig:remove']"
               >休息</el-button>
         </template>

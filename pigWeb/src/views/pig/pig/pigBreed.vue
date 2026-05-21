@@ -325,6 +325,7 @@ export default {
                 this.$modal.msgSuccess("新增成功")
                 this.open = false
                 this.init()
+                location.reload()
       })
       })
       // this.$refs["form"].validate(valid => {
