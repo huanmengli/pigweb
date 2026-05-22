@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="仔猪年龄" prop="smallPigId">
+      <el-form-item label="仔猪代号" prop="smallPigId">
         <el-input
           v-model="queryParams.smallPigId"
-          placeholder="请输入仔猪年龄"
+          placeholder="请输入仔猪代号"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -164,7 +164,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="请选择状态" prop="pigSex">
+            <el-form-item label="请选择性别" prop="pigSex">
               <el-select  v-model="form.smallPigSex" placeholder="请选择性别" clearable :style="{width: '100%'}">
                 <el-option v-for="(item, index) in sexList" :key="index" :label="item.label"
                   :value="item.value" :disabled="item.disabled"></el-option>
@@ -233,7 +233,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="请选择状态" prop="pigSex">
+            <el-form-item label="请选择性别" prop="pigSex">
               <el-select  v-model="form.smallPigSex" placeholder="请选择性别" clearable :style="{width: '100%'}">
                 <el-option v-for="(item, index) in sexList" :key="index" :label="item.label"
                   :value="item.value" :disabled="item.disabled"></el-option>

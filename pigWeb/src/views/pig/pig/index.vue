@@ -121,6 +121,7 @@
           <el-tag v-else-if="scope.row.pigStatus==3">分娩中</el-tag>
           <el-tag v-else-if="scope.row.pigStatus==4">未断奶</el-tag>
           <el-tag v-else-if="scope.row.pigStatus==5">已断奶</el-tag>
+          <el-tag v-else-if="scope.row.pigStatus==6">带仔中</el-tag>
         </template>
       </el-table-column>
       <!-- <el-table-column label="需要配种的家猪id" align="center" prop="pigPigid" /> -->
@@ -287,6 +288,10 @@ export default {
         {
           "label":"已断奶",
           "value":"5"
+        },
+        {
+          "label":"带仔中",
+          "value":"6"
         }
       ],
       sexList:[

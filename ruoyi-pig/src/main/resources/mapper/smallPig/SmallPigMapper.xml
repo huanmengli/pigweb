@@ -21,8 +21,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectSmallPigList" parameterType="SmallPig" resultMap="SmallPigResult">
         <include refid="selectSmallPigVo"/>
-        <where>  
+        <where>
             <if test="smallPigSex != null  and smallPigSex != ''"> and small_pig_sex = #{smallPigSex}</if>
+             <if test="smallPigId != null  and smallPigId != ''"> and small_pig_id = #{smallPigId}</if>
             <if test="smallPigAge != null "> and small_pig_age = #{smallPigAge}</if>
             <if test="smallPigBirthnum != null "> and small_pig_birthNum = #{smallPigBirthnum}</if>
             <if test="smallPigStatus != null  and smallPigStatus != ''"> and small_pig_status = #{smallPigStatus}</if>

@@ -36,6 +36,7 @@ public class SmallPigController extends BaseController
     public TableDataInfo list(SmallPig smallPig)
     {
         startPage();
+        System.err.println(smallPig);
         List<SmallPig> list = smallPigService.selectSmallPigList(smallPig);
         return getDataTable(list);
     }
