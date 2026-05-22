@@ -2,9 +2,9 @@
   <!-- 分娩页面 -->
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="母猪代号" prop="pigName">
+      <el-form-item label="母猪代号" prop="pigId">
         <el-input
-          v-model="queryParams.pigName"
+          v-model="queryParams.pigId"
           placeholder="请输入母猪代号"
           clearable
           @keyup.enter.native="handleQuery"
@@ -232,6 +232,7 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
+        pigId:null,
         pigName: null,
         pigSex: 1,
         pigSonNum:null,
@@ -275,6 +276,8 @@ export default {
        pigName: '',
        pigSex: '',
        pigAge: '',
+       pigSonNum:'',
+       pigBirthnum:'',
        pigStatus: '',
        pigPigid: ''
       },

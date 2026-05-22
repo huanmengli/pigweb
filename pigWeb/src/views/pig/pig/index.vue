@@ -2,7 +2,7 @@
   <!-- 家猪管理 -->
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="家猪日龄" prop="pigAge">
+      <el-form-item label="家猪代号" prop="pigAge">
         <el-input
           v-model="queryParams.pigId"
           placeholder="请输入家猪代号"
