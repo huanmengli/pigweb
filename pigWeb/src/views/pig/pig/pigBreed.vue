@@ -228,6 +228,11 @@ export default {
   created() {
     this.init()
   },
+  watch: {
+    '$route'(to, from) {
+      this.init()
+    }
+  },
   methods: {
     pigPeizhong(row){
 

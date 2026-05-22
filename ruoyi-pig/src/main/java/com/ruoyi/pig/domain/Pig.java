@@ -36,7 +36,6 @@ public class Pig extends BaseEntity
     @Excel(name = "母猪一共生了多少只猪")
     private Long pigSonNum;
 
-
 //    母猪生育第几窝
     @Excel(name = "母猪生育第几窝")
     private Integer pigBirthnum;

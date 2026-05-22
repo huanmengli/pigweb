@@ -260,6 +260,11 @@ export default {
   created() {
     this.getList()
   },
+  watch: {
+    '$route'(to, from) {
+      this.getList()
+    }
+  },
   methods: {
     pigPeizhong(row){
       row.pigStatus="1"

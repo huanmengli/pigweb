@@ -356,6 +356,11 @@ export default {
   created() {
     this.getList()
   },
+  watch: {
+    '$route'(to, from) {
+      this.getList()
+    }
+  },
   methods: {
     /** 查询pig列表 */
     getList() {
@@ -433,6 +438,7 @@ export default {
               this.$modal.msgSuccess("新增成功")
               this.open = false
               this.getList()
+
             })
           } else {
 

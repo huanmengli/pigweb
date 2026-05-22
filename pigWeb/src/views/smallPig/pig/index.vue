@@ -1,26 +1,26 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="小猪年龄" prop="smallPigId">
+      <el-form-item label="仔猪年龄" prop="smallPigId">
         <el-input
           v-model="queryParams.smallPigId"
-          placeholder="请输入小猪年龄"
+          placeholder="请输入仔猪年龄"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-    <!--  <el-form-item label="小猪出生时那一窝的数量" prop="smallPigBirthnum">
+    <!--  <el-form-item label="仔猪出生时那一窝的数量" prop="smallPigBirthnum">
         <el-input
           v-model="queryParams.smallPigBirthnum"
-          placeholder="请输入小猪出生时那一窝的数量"
+          placeholder="请输入仔猪出生时那一窝的数量"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item> -->
-      <!-- <el-form-item label="小猪的母猪" prop="smallPigPigId">
+      <!-- <el-form-item label="仔猪的母猪" prop="smallPigPigId">
         <el-input
           v-model="queryParams.smallPigPigId"
-          placeholder="请输入小猪的母猪"
+          placeholder="请输入仔猪的母猪"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -95,22 +95,22 @@
 
     <el-table v-loading="loading" :data="pigList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="小猪代号" align="center" prop="smallPigId" />
+      <el-table-column label="仔猪代号" align="center" prop="smallPigId" />
       <el-table-column label="家猪性别" align="center" prop="smallPigSex" >
         <template slot-scope="scope">
           <el-tag v-if="scope.row.smallPigSex == 1">母</el-tag>
           <el-tag v-else>公</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="小猪年龄" align="center" prop="smallPigAge" />
-      <el-table-column label="小猪第几窝出生" align="center" prop="smallPigBirthnum" />
-      <el-table-column label="小猪状态" align="center" prop="smallPigStatus" >
+      <el-table-column label="仔猪年龄" align="center" prop="smallPigAge" />
+      <el-table-column label="仔猪第几窝出生" align="center" prop="smallPigBirthnum" />
+      <el-table-column label="仔猪状态" align="center" prop="smallPigStatus" >
         <template slot-scope="scope">
           <el-tag v-if="scope.row.smallPigStatus==1">未断奶</el-tag>
           <el-tag v-else-if="scope.row.smallPigStatus==2">已断奶</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="小猪的母猪" align="center" prop="smallPigPigId" />
+      <el-table-column label="仔猪的母猪代号" align="center" prop="smallPigPigId" />
       <!-- <el-table-column label="${comment}" align="center" prop="smallPigCreatetime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.smallPigCreatetime, '{y}-{m}-{d}') }}</span>
@@ -150,17 +150,17 @@
     />
 
     <!-- 添加mallPig对话框 -->
-    <el-dialog title="添加小猪" :visible.sync="openAdd" width="500px" append-to-body>
+    <el-dialog title="添加仔猪" :visible.sync="openAdd" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-row>
           <el-col :span="24">
-            <el-form-item label="小猪代号" prop="smallPigId">
-              <el-input v-model="form.smallPigId" placeholder="请输入小猪代号" />
+            <el-form-item label="仔猪代号" prop="smallPigId">
+              <el-input v-model="form.smallPigId" placeholder="请输入仔猪代号" />
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="小猪日龄" prop="smallPigAge">
-              <el-input v-model="form.smallPigAge" placeholder="请输入小猪日龄" />
+            <el-form-item label="仔猪日龄" prop="smallPigAge">
+              <el-input v-model="form.smallPigAge" placeholder="请输入仔猪日龄" />
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -172,8 +172,8 @@
             </el-form-item>
           </el-col>
           <!-- <el-col :span="24">
-            <el-form-item label="小猪第几窝出生" prop="smallPigBirthnum">
-              <el-input v-model="form.smallPigBirthnum" placeholder="请输入小猪出生时那一窝的数量" />
+            <el-form-item label="仔猪第几窝出生" prop="smallPigBirthnum">
+              <el-input v-model="form.smallPigBirthnum" placeholder="请输入仔猪出生时那一窝的数量" />
             </el-form-item>
           </el-col> -->
           <el-col :span="24">
@@ -223,13 +223,13 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-row>
           <el-col :span="24">
-            <el-form-item label="小猪代号" prop="smallPigId">
-              <el-input v-model="form.smallPigId" placeholder="请输入小猪代号" />
+            <el-form-item label="仔猪代号" prop="smallPigId">
+              <el-input v-model="form.smallPigId" placeholder="请输入仔猪代号" />
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="小猪日龄" prop="smallPigAge">
-              <el-input v-model="form.smallPigAge" placeholder="请输入小猪日龄" />
+            <el-form-item label="仔猪日龄" prop="smallPigAge">
+              <el-input v-model="form.smallPigAge" placeholder="请输入仔猪日龄" />
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -241,8 +241,8 @@
             </el-form-item>
           </el-col>
           <!-- <el-col :span="24">
-            <el-form-item label="小猪第几窝出生" prop="smallPigBirthnum">
-              <el-input v-model="form.smallPigBirthnum" placeholder="请输入小猪出生时那一窝的数量" />
+            <el-form-item label="仔猪第几窝出生" prop="smallPigBirthnum">
+              <el-input v-model="form.smallPigBirthnum" placeholder="请输入仔猪出生时那一窝的数量" />
             </el-form-item>
           </el-col> -->
           <el-col :span="24">
@@ -361,6 +361,11 @@ export default {
   },
   created() {
     this.init()
+  },
+  watch: {
+    '$route'() {
+      this.init()
+    }
   },
   methods: {
     init(){

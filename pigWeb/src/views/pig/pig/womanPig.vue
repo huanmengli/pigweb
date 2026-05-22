@@ -97,6 +97,7 @@
           <el-tag v-else-if="scope.row.pigStatus==3">分娩中</el-tag>
           <el-tag v-else-if="scope.row.pigStatus==4">未断奶</el-tag>
           <el-tag v-else-if="scope.row.pigStatus==5">已断奶</el-tag>
+          <el-tag v-else-if="scope.row.pigStatus==6">带仔中</el-tag>
         </template>
       </el-table-column>
       <!-- <el-table-column label="需要配种的家猪id" align="center" prop="pigPigid" /> -->
@@ -126,14 +127,14 @@
               @click="pigRenshen(scope.row)"
               v-hasPermi="['pig:pig:remove']"
             >确认妊娠</el-button>
-            <el-button
+            <!-- <el-button
                size="small"
                v-if="scope.row.pigStatus==3"
                type="text"
                icon="el-icon-add"
                @click="pigRenshen(scope.row)"
                v-hasPermi="['pig:pig:remove']"
-             >开始分娩</el-button>
+             >开始分娩</el-button> -->
              <el-button
                 size="small"
                 v-if="scope.row.pigStatus==3"
@@ -242,7 +243,22 @@ export default {
   created() {
     this.getList()
   },
+  watch: {
+    '$route'() {
+      this.getList()
+    }
+  },
   methods: {
+    pigRenshen(row){
+      row.pigStatus="3"
+      row.pigBirthnum++
+      // console.log(row);
+      pigChangeStatus(row).then(res=>{
+        this.$modal.msgSuccess("状态修改成功")
+        this.init()
+        // location.reload()
+      })
+    },
     pigHuaiyun(row){
       row.pigStatus="2"
       pigChangeStatus(row).then(res=>{

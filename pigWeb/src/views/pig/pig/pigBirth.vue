@@ -137,8 +137,8 @@
             </el-form-item>
           </el-col> -->
          <!-- <el-col :span="24">
-            <el-form-item label="小猪日龄" prop="pigAge">
-              <el-input v-model="form.pigAge" placeholder="请输入小猪年龄" />
+            <el-form-item label="仔猪日龄" prop="pigAge">
+              <el-input v-model="form.pigAge" placeholder="请输入仔猪年龄" />
             </el-form-item>
           </el-col> -->
           <el-col :span="24">
@@ -162,13 +162,13 @@
       <el-form ref="form" :model="smallPigForm" :rules="rules" label-width="100px">
         <el-row>
           <el-col :span="24">
-            <el-form-item label="小猪代号" prop="pigName">
-              <el-input v-model="smallPigForm.smallPigId" placeholder="请输入小猪代号" />
+            <el-form-item label="仔猪代号" prop="pigName">
+              <el-input v-model="smallPigForm.smallPigId" placeholder="请输入仔猪代号" />
             </el-form-item>
           </el-col>
          <el-col :span="24">
-            <el-form-item label="小猪日龄" prop="pigAge">
-              <el-input v-model="smallPigForm.smallPigAge" placeholder="请输入小猪年龄" />
+            <el-form-item label="仔猪日龄" prop="pigAge">
+              <el-input v-model="smallPigForm.smallPigAge" placeholder="请输入仔猪年龄" />
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -252,7 +252,7 @@ export default {
         pigStatus: 0,
         pigPigid: null
       },
-      // 小猪查询参数
+      // 仔猪查询参数
       smallPigForm: {
         // pageNum: 1,
         // pageSize: 10,
@@ -285,6 +285,11 @@ export default {
   },
   created() {
     this.init()
+  },
+  watch: {
+    '$route'(to, from) {
+      this.init()
+    }
   },
   methods: {
     addPig(){
@@ -387,7 +392,7 @@ export default {
       // pigChangeStatus(row).then(res=>{
       //   console.log(res);
       //   this.reset()
-      //   this.title = "添加小猪"
+      //   this.title = "添加仔猪"
       // })
 
     },
@@ -403,42 +408,44 @@ export default {
     },
     /** 提交按钮 */
     submitForm() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          if (this.form.pigId != null) {
-            this.form.pigStatus='4'
-            this.smallPigForm.smallPigStatus="1"
-            addSmallPig(this.smallPigForm).then(response => {
-              this.$modal.msgSuccess("新增成功")
-              this.open = false
-              this.womanPig.pigSonNum++
-              pigChangeStatus(this.womanPig).then(res=>{
-                // location.reload()
-              })
+      this.form.pigStatus='4'
+      this.smallPigForm.smallPigStatus="1"
+      addSmallPig(this.smallPigForm).then(response => {
+        this.$modal.msgSuccess("新增成功")
+        this.open = false
+        this.womanPig.pigSonNum++
+        this.womanPig.pigStatus="6"
+        pigChangeStatus(this.womanPig).then(res=>{
+          this.init()
+        })
 
-            })
-            // updatePig(this.form).then(response => {
-            //   this.$modal.msgSuccess("修改成功")
-            //   this.open = false
-            //   this.getList()
-            // })
-          } else {
-            this.form.pigStatus='4'
-            this.smallPigForm.smallPigStatus="1"
-            addSmallPig(this.smallPigForm).then(response => {
-              this.$modal.msgSuccess("新增成功")
-              this.open = false
-              this.womanPig.pigSonNum++
-              this.womanPig.pigStatus="6"
-              pigChangeStatus(this.womanPig).then(res=>{
-                this.init()
-                // location.reload()
-              })
-
-            })
-          }
-        }
       })
+      // this.$refs["form"].validate(valid => {
+      //   if (valid) {
+      //     if (this.form.pigId != null) {
+
+      //       // updatePig(this.form).then(response => {
+      //       //   this.$modal.msgSuccess("修改成功")
+      //       //   this.open = false
+      //       //   this.getList()
+      //       // })
+      //     } else {
+      //       this.form.pigStatus='4'
+      //       this.smallPigForm.smallPigStatus="1"
+      //       addSmallPig(this.smallPigForm).then(response => {
+      //         this.$modal.msgSuccess("新增成功")
+      //         this.open = false
+      //         this.womanPig.pigSonNum++
+      //         this.womanPig.pigStatus="6"
+      //         pigChangeStatus(this.womanPig).then(res=>{
+      //           this.init()
+      //           // location.reload()
+      //         })
+
+      //       })
+      //     }
+      //   }
+      // })
     },
     /** 删除按钮操作 */
     handleDelete(row) {

@@ -229,6 +229,11 @@ export default {
   created() {
     this.init()
   },
+  watch: {
+    '$route'() {
+      this.init()
+    }
+  },
   methods: {
     pigXiuxi(row){
       row.pigStatus="0"

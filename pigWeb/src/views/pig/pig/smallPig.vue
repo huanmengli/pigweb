@@ -281,6 +281,11 @@ export default {
   created() {
     this.getList()
   },
+  watch: {
+    '$route'() {
+      this.getList()
+    }
+  },
   methods: {
     /** 查询pig列表 */
     getList() {
