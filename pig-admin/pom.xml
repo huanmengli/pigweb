@@ -18,7 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-pig</artifactId>
+            <artifactId>pig-pig</artifactId>
             <version>3.9.2</version>
         </dependency>
 
@@ -63,20 +63,20 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <addResources>true</addResources>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    <addResources>true</addResources>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <goals>-->
+<!--                            <goal>repackage</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
             <plugin>   
                 <groupId>org.apache.maven.plugins</groupId>   
                 <artifactId>maven-war-plugin</artifactId>   

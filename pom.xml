@@ -174,13 +174,13 @@
     </dependencyManagement>
 
     <modules>
-        <module>ruoyi-admin</module>
-        <module>ruoyi-framework</module>
-        <module>ruoyi-system</module>
-        <module>ruoyi-quartz</module>
-        <module>ruoyi-generator</module>
-        <module>ruoyi-common</module>
-        <module>ruoyi-pig</module>
+        <module>pig-admin</module>
+        <module>pig-framework</module>
+        <module>pig-system</module>
+        <module>pig-quartz</module>
+        <module>pig-generator</module>
+        <module>pig-common</module>
+        <module>pig-pig</module>
     </modules>
     <packaging>pom</packaging>
 
