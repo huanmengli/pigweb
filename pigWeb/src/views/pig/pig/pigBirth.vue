@@ -76,6 +76,7 @@
       <el-table-column label="母猪日龄" align="center" prop="pigAge" />
       <el-table-column label="母猪共生育的窝数" align="center" prop="pigBirthnum" />
       <el-table-column label="母猪共生育的总数" align="center" prop="pigSonNum" />
+      <el-table-column label="母猪这一次需要生育的数量" align="center" prop="pigOneNum" />
       <el-table-column label="母猪状态" align="center" prop="pigStatus" >
         <template slot-scope="scope">
           <el-tag v-if="scope.row.pigStatus ==0 ">空闲中</el-tag>
@@ -101,7 +102,7 @@
             @click="handleDelete(scope.row)"
             v-hasPermi="['pig:pig:remove']"
           >删除</el-button> -->
-          <el-button
+          <el-button v-if="scope.row.pigStatus==3"
             size="medium"
             type="text"
             icon="el-icon-add"
@@ -131,11 +132,7 @@
     <el-dialog :title="addtitle" :visible.sync="addOpen" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-row>
-          <!-- <el-col :span="24">
-            <el-form-item label="母猪代号" prop="pigName">
-              <el-input v-model="form.pigId" placeholder="请输入母猪代号" />
-            </el-form-item>
-          </el-col> -->
+
          <!-- <el-col :span="24">
             <el-form-item label="仔猪日龄" prop="pigAge">
               <el-input v-model="form.pigAge" placeholder="请输入仔猪年龄" />
@@ -147,6 +144,11 @@
                 <el-option v-for="(item, index) in womanList" :key="index" :label="item.pigId"
                   :value="item.pigId" :disabled="item.disabled"></el-option>
               </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="母猪生育数量" prop="pigOneNum">
+              <el-input v-model="form.pigOneNum" placeholder="请输入母猪生育数量" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -249,6 +251,7 @@ export default {
         pigSex: 1,
         pigAge: null,
         pigSonNum:null,
+        pigOneNum:null,
         pigBirthnum:null,
         pigStatus: 0,
         pigPigid: null
@@ -277,6 +280,7 @@ export default {
        pigSex: '',
        pigAge: '',
        pigSonNum:'',
+       pigOneNum:'',
        pigBirthnum:'',
        pigStatus: '',
        pigPigid: ''
@@ -296,6 +300,11 @@ export default {
   },
   methods: {
     addPig(){
+      if(this.form.pigId==""||this.form.pigOneNum==""
+      ||this.form.pigId==null||this.form.pigOneNum==null
+      ){
+        return
+      }
       this.form.pigStatus="3"
       console.log(this.form);
       pigChangeStatus(this.form).then(res=>{
@@ -417,7 +426,10 @@ export default {
         this.$modal.msgSuccess("新增成功")
         this.open = false
         this.womanPig.pigSonNum++
-        this.womanPig.pigStatus="6"
+        this.womanPig.pigOneNum--
+        if(this.womanPig.pigOneNum==0){
+          this.womanPig.pigStatus="6"
+        }
         pigChangeStatus(this.womanPig).then(res=>{
           this.init()
         })

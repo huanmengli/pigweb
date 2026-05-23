@@ -126,6 +126,39 @@
       :limit.sync="queryParams.pageSize"
       @pagination="getList"
     />
+    <!-- 怀孕对话框 -->
+    <el-dialog title="进入妊娠" :visible.sync="huaiyunOpen" width="500px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+        <el-row>
+        <!--  <el-col :span="24">
+            <el-form-item label="母" prop="pigId">
+              <el-select v-model="form.pigId" placeholder="请选择母猪" clearable :style="{width: '100%'}">
+                <el-option v-for="(item, index) in womanList" :key="index" :label="item.pigId"
+                  :value="item.pigId" :disabled="item.disabled"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col> -->
+          <el-col :span="24">
+            <el-form-item label="生育数量" prop="pigOneNum">
+              <el-input v-model="form.pigOneNum" placeholder="请输入生育数量" />
+            </el-form-item>
+          </el-col>
+          <!-- <el-col :span="24">
+            <el-form-item label="性别" prop="pigSex">
+              <el-select v-model="form.pigSex" placeholder="请选择性别" clearable :style="{width: '100%'}">
+                <el-option v-for="(item, index) in sexList" :key="index" :label="item.label"
+                  :value="item.value" :disabled="item.disabled"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col> -->
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitFormAdd">确 定</el-button>
+        <el-button @click="cancel">取 消</el-button>
+      </div>
+    </el-dialog>
+
 
     <!-- 添加或修改pig对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
@@ -196,6 +229,7 @@ export default {
       pigList: [],
       // 弹出层标题
       title: "",
+      huaiyunOpen:false,
       // 是否显示弹出层
       open: false,
       // 查询参数
@@ -205,6 +239,8 @@ export default {
         pigId:null,
         pigName: null,
         pigSex: 1,
+        pigOneNum:null,
+        pigBirthnum:null,
         pigAge: null,
         pigStatus: 2,
         pigPigid: null
@@ -216,6 +252,8 @@ export default {
         pigName: null,
         pigSex: 1,
         pigAge: null,
+        pigOneNum:null,
+        pigBirthnum:null,
         pigStatus: 0,
         pigPigid: null
       },
@@ -245,18 +283,22 @@ export default {
       })
     },
     pigHuaiYun(row){
-      row.pigStatus="3"
-      row.pigBirthnum++
-      // console.log(row);
-      pigChangeStatus(row).then(res=>{
-        this.$modal.msgSuccess("状态修改成功")
-        this.init()
-        // location.reload()
-      })
+      this.huaiyunOpen=true
+      this.form.pigId=row.pigId
+      this.form.pigBirthnum=row.pigBirthnum
+      // row.pigStatus="3"
+      // row.pigBirthnum++
+      // // console.log(row);
+      // pigChangeStatus(row).then(res=>{
+      //   this.$modal.msgSuccess("状态修改成功")
+      //   this.init()
+      //   // location.reload()
+      // })
     },
     init(){
       this.getList()
       this.getWomanList()
+      this.reset()
     },
     getWomanList(){
       listPig(this.womanQueryParams).then(res=>{
@@ -286,6 +328,8 @@ export default {
         pigName: null,
         pigSex: null,
         pigAge: null,
+        pigOneNum:null,
+        pigBirthnum:null,
         pigStatus: null,
         pigPigid: null
       }
@@ -321,6 +365,15 @@ export default {
         this.form = response.data
         this.open = true
         this.title = "修改pig"
+      })
+    },
+    submitFormAdd(){
+      this.form.pigStatus="3"
+      this.form.pigBirthnum++
+      console.log(this.form);
+      pigChangeStatus(this.form).then(res=>{
+        this.huaiyunOpen=false
+        this.init()
       })
     },
     /** 提交按钮 */
